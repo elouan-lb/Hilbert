@@ -1,6 +1,7 @@
 {
   "name": "hilbert",
   "version": "0.1.0",
+  "description": "A web application mapping a single index to an N-dimensional parameter space, easing parameter space explorations.",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

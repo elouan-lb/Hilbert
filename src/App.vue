@@ -1,26 +1,24 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="main-container">
+    <div class="header section-container">
+      <h1 id="title-main">Hilbert-standalone</h1>
+      <a id="title-settings" href="#">Settings</a>
+    </div>
+    <Settings />
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Settings from "./components/Settings.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    Settings,
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "./assets/styles/style.css";
 </style>
