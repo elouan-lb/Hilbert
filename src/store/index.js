@@ -26,6 +26,9 @@ export default createStore({
         });
       }
     },
+    updateParameterActiveState(state, payload) {
+      this.state.parameters[payload.index].active = payload.active;
+    },
     updateParameterMin(state, payload) {
       this.state.parameters[payload.index].min = payload.min;
     },

@@ -290,7 +290,7 @@ input {
 
 /* Inactive parameter */
 
-.inactive {
+.inactive input{
   pointer-events: none;
 }
 .inactive #parameter-range {

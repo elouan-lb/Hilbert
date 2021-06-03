@@ -1,13 +1,10 @@
 <template>
-  <div class="parameters-section active">
+  <div
+    class="parameters-section"
+    :class="{ active: active, inactive: !active }"
+  >
     <div class="parameters-slider-container">
-      <input
-        :value="min"
-        @input="updateMin"
-        type="number"
-        id="parameter-1-min"
-        name="parameter-1-min"
-      />
+      <input :value="min" @input="updateMin" type="number" />
       <div class="parameter-slider">
         <input
           type="range"
@@ -28,23 +25,18 @@
           step="0.001"
         />
       </div>
-      <input
-        :value="max"
-        @input="updateMax"
-        type="number"
-        id="parameter-1-max"
-        name="parameter-1-max"
-      />
+      <input :value="max" @input="updateMax" type="number" />
     </div>
     <input
       :value="name"
       @input="updateName"
       type="text"
       class="parameter-name"
-      id="parameter-1-name"
-      name="parameter-1-name"
     />
-    <div class="activate-parameter active"></div>
+    <div class="activate-parameter" @click="freezeParameter">
+      <img v-if="active" src="../assets/imgs/opened_eye.png" />
+      <img v-else src="../assets/imgs/closed_eye.png" />
+    </div>
   </div>
 </template>
 
@@ -62,6 +54,12 @@ export default {
     return {};
   },
   methods: {
+    freezeParameter() {
+      this.$store.commit("updateParameterActiveState", {
+        index: this.index,
+        active: !this.active,
+      });
+    },
     updateMin(e) {
       this.$store.commit("updateParameterMin", {
         index: this.index,
@@ -89,17 +87,20 @@ export default {
   },
   computed: {
     ...mapState({
+      active(state) {
+        return state.parameters[this.index].active;
+      },
       min(state) {
-        return state.parameters[this.index].min;
+        return parseFloat(state.parameters[this.index].min);
       },
       max(state) {
-        return state.parameters[this.index].max;
+        return parseFloat(state.parameters[this.index].max);
       },
       name(state) {
         return state.parameters[this.index].name;
       },
       value(state) {
-        return state.parameters[this.index].value;
+        return parseFloat(state.parameters[this.index].value);
       },
     }),
   },

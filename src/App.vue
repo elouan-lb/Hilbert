@@ -24,7 +24,7 @@
         <div class="parameter-section-list">
           <Parameter
             v-for="(p, index) in parameters"
-            :key="p.name"
+            :key="p.index"
             :index="index"
           />
         </div>
