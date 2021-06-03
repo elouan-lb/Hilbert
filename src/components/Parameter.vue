@@ -8,13 +8,14 @@
       <div class="parameter-slider">
         <!-- Change zoom width according to zoom level -->
         <input
+          :value="range_value"
+          @input="updateRangeValue"
           type="range"
           id="parameter-range"
           name="parameter-range"
           :min="min"
           :max="max"
           step="any"
-          value="0"
           v-bind:style="{ '--zoomlevel': overview_zoom * 100 + '%' }"
         />
         <input
@@ -54,9 +55,28 @@ export default {
     index: Number,
   },
   data: function () {
-    return {};
+    return {
+      range_value: 0,
+    };
   },
   methods: {
+    updateValue(e) {
+      this.$store.commit("updateParameterValue", {
+        index: this.index,
+        value: e.target.value,
+      });
+      /* Update range value when changing the value */
+      /* TODO: check if double update is needed */
+      this.range_value = e.target.value;
+    },
+    updateRangeValue(e) {
+      /* Update value when changing the range value */
+      this.$store.commit("updateParameterValue", {
+        index: this.index,
+        value: e.target.value,
+      });
+      this.range_value = e.target.value;
+    },
     freezeParameter() {
       this.$store.commit("updateParameterActiveState", {
         index: this.index,
@@ -79,12 +99,6 @@ export default {
       this.$store.commit("updateParameterName", {
         index: this.index,
         name: e.target.value,
-      });
-    },
-    updateValue(e) {
-      this.$store.commit("updateParameterValue", {
-        index: this.index,
-        value: e.target.value,
       });
     },
   },
