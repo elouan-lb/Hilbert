@@ -9,13 +9,20 @@
         >{{ nav }}</a
       >
     </div>
-    <Settings v-if="display_settings" />
-    <div v-if="!display_settings">
+    <Settings v-show="display_settings" />
+    <div v-show="!display_settings">
       <div class="bookmarks section-container">
         <div class="bookmarks-header">
           <h2>Bookmarks</h2>
         </div>
         <div class="bookmarks-list"></div>
+      </div>
+      <div class="overview section-container">
+        <div class="overview-header">
+          <h2>Overview</h2>
+          <OverviewZoom />
+        </div>
+        <OverviewIndex />
       </div>
       <div class="parameters section-container">
         <div class="parameters-header">
@@ -37,14 +44,18 @@
 </template>
 
 <script>
-import Settings from "./components/Settings.vue";
+import OverviewIndex from "./components/OverviewIndex.vue";
+import OverviewZoom from "./components/OverviewZoom.vue";
 import Parameter from "./components/Parameter.vue";
+import Settings from "./components/Settings.vue";
 
 export default {
   name: "App",
   components: {
-    Settings,
+    OverviewIndex,
+    OverviewZoom,
     Parameter,
+    Settings,
   },
   data: function () {
     return {

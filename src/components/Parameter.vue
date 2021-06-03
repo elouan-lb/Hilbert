@@ -12,7 +12,8 @@
           name="parameter-range"
           :min="min"
           :max="max"
-          step="0.001"
+          step="any"
+          value="0"
         />
         <input
           :value="value"
@@ -22,7 +23,7 @@
           name="parameter-value"
           :min="min"
           :max="max"
-          step="0.001"
+          step="any"
         />
       </div>
       <input :value="max" @input="updateMax" type="number" />
@@ -100,6 +101,7 @@ export default {
         return state.parameters[this.index].name;
       },
       value(state) {
+        console.log(state.parameters[this.index].value);
         return parseFloat(state.parameters[this.index].value);
       },
     }),

@@ -3,15 +3,18 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     settings: {
-      parameters_no: 0,
+      parameters_no: 4,
       host: "",
       port: 0,
       granularity: 0,
     },
+    overview_zoom: 1 /* 1: no zoom, 0: maximum zoom */,
+    overview_index: 0 /* From 0 to 1 */,
     parameters: [],
   },
   mutations: {
     updateSettings(state, payload) {
+      /* Update settings */
       state.settings = payload;
       /* Reset parameters */
       state.parameters = [];
@@ -25,6 +28,12 @@ export default createStore({
           value: 0,
         });
       }
+    },
+    updateOverviewIndex(state, index) {
+      this.state.overview_index = index;
+    },
+    updateOverviewZoom(state, zoom) {
+      this.state.overview_zoom = zoom;
     },
     updateParameterActiveState(state, payload) {
       this.state.parameters[payload.index].active = payload.active;
