@@ -15,7 +15,12 @@
         <div class="bookmarks-header">
           <h2>Bookmarks</h2>
         </div>
-        <div class="bookmarks-list"></div>
+        <div class="bookmarks-list">
+          <Bookmark />
+          <Bookmark />
+          <Bookmark />
+          <Bookmark />
+        </div>
       </div>
       <div class="overview section-container">
         <div class="overview-header">
@@ -44,6 +49,7 @@
 </template>
 
 <script>
+import Bookmark from "./components/Bookmark.vue";
 import OverviewIndex from "./components/OverviewIndex.vue";
 import OverviewZoom from "./components/OverviewZoom.vue";
 import Parameter from "./components/Parameter.vue";
@@ -52,6 +58,7 @@ import Settings from "./components/Settings.vue";
 export default {
   name: "App",
   components: {
+    Bookmark,
     OverviewIndex,
     OverviewZoom,
     Parameter,

@@ -76,9 +76,11 @@ h2 {
 .bookmark-btn.active {
   background-color: #FB9595;
 }
-
 .bookmark-btn:hover {
-  background-color: #FB9595;
+  background-color: #f7b7b7;
+}
+.bookmark-btn.active:hover {
+  background-color: #fa7575;
 }
 
 /* OVERVIEW */

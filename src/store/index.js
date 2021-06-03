@@ -16,7 +16,9 @@ export default createStore({
     updateSettings(state, payload) {
       /* Update settings */
       state.settings = payload;
-      /* Reset parameters */
+      this.commit("resetParameters");
+    },
+    resetParameters(state) {
       state.parameters = [];
       for (var i = 0; i < state.settings.parameters_no; i++) {
         state.parameters.push({
@@ -28,6 +30,11 @@ export default createStore({
           value: 0,
         });
       }
+    },
+    resetToBookmark(state, payload) {
+      this.state.overview_index = payload.overview_index;
+      this.state.overview_zoom = payload.overview_zoom;
+      this.state.parameters = payload.parameters;
     },
     updateOverviewIndex(state, index) {
       this.state.overview_index = index;

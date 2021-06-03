@@ -104,7 +104,6 @@ export default {
         return state.parameters[this.index].name;
       },
       value(state) {
-        console.log(state.parameters[this.index].value);
         return parseFloat(state.parameters[this.index].value);
       },
     }),
