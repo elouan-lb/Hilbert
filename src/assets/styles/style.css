@@ -240,6 +240,7 @@ input {
 	height: 8px;
 }
 #parameter-range {
+  --zoomlevel: 100%; /* Dynamic size with CSS variable */
   background: #F1F1F1;
   mix-blend-mode: multiply;
   position: relative;
@@ -254,15 +255,16 @@ input {
 #parameter-range::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
-  width: 20%; /* TODO: change with css variable */
+  width: var(--zoomlevel);
   height: 8px; /* Slider handle height */
   border-radius: 0;
   background: #CEE5FF; /* background */
   cursor: pointer; /* Cursor on hover */
   border: none;
 }
+
 #parameter-range::-moz-range-thumb {
-  width: 20%; /* TODO: change with css variable */
+  width: var(--zoomlevel);
   height: 8px; /* Slider handle height */
   border-radius: 0;
   background: #CEE5FF; /* background */

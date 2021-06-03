@@ -6,6 +6,7 @@
     <div class="parameters-slider-container">
       <input :value="min" @input="updateMin" type="number" />
       <div class="parameter-slider">
+        <!-- Change zoom width according to zoom level -->
         <input
           type="range"
           id="parameter-range"
@@ -14,6 +15,7 @@
           :max="max"
           step="any"
           value="0"
+          v-bind:style="{ '--zoomlevel': overview_zoom * 100 + '%' }"
         />
         <input
           :value="value"
@@ -88,6 +90,7 @@ export default {
   },
   computed: {
     ...mapState({
+      overview_zoom: (state) => state.overview_zoom,
       active(state) {
         return state.parameters[this.index].active;
       },
