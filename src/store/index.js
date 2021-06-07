@@ -1,8 +1,12 @@
 import { createStore } from "vuex";
+import moduleWasm from "../wasm/hilberttransposition.js";
+
 
 const map_values = function (value, in_min, in_max, out_min, out_max) {
   return ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 };
+
+var instance; /* WASM instance */
 
 /* TODO: check min / max values. Allow negative values */
 export default createStore({
@@ -52,6 +56,23 @@ export default createStore({
           param.zoomed_max
         );
       });
+    },
+    computeHilbertIndex() {
+      /* Compute Hilbert index according to coordinates values */
+      var active_parameters = this.state.parameters.filter((p) => p.active);
+
+      /* Scale values to maximum coordinates range */
+      var coordinates = []
+      var max_coordinate = 2**this.state.settings.granularity - 1;
+
+      active_parameters.forEach(p => {
+        coordinates.push(Math.floor(map_values(p.value, p.min, p.max, 0, max_coordinate)))
+      });
+
+      var distance_from_coordinates = instance.cwrap('distance_from_coordinates', 'number', ['array','number','number']);
+      var overview_index = distance_from_coordinates(coordinates, this.state.settings.granularity, this.state.settings.parameters_no);
+
+      console.log(overview_index);
     },
     computeParametersZoomedIntervals(state) {
       /* Update zoomed parameters range */
@@ -104,6 +125,10 @@ export default createStore({
     },
     //TODO: add update for active parameters
   },
-  actions: {},
+  actions: {
+    async loadHilbertModule() {
+      instance = await moduleWasm();
+    }
+  },
   modules: {},
 });

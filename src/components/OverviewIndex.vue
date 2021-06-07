@@ -60,9 +60,6 @@ export default {
       /* Scale coordinates between 0 and 1 */
       var scaled_coordinates = coordinates.map((x) => x / max_coordinate);
       this.$store.commit("updateParametersValues", scaled_coordinates);
-      // console.log(max_coordinate);
-      // console.log(coordinates);
-      // console.log(scaled_coordinates);
     },
   },
   computed: {

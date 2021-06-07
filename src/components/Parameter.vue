@@ -69,6 +69,7 @@ export default {
         range_value: e.target.value,
       });
       this.$store.commit("computeParameterZoomedInterval", this.index);
+      this.$store.commit("computeHilbertIndex");
     },
     freezeParameter() {
       this.$store.commit("updateParameterActiveState", {
@@ -118,5 +119,8 @@ export default {
       },
     }),
   },
+  async created() {
+    this.$store.dispatch("loadHilbertModule")
+  }
 };
 </script>
