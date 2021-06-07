@@ -9,7 +9,7 @@
         <!-- Change zoom width according to zoom level -->
         <input
           :value="range_value"
-          @input="updateRangeValue"
+          @input="updateValue"
           type="range"
           id="parameter-range"
           name="parameter-range"
@@ -55,27 +55,20 @@ export default {
     index: Number,
   },
   data: function () {
-    return {
-      range_value: 0,
-    };
+    return {};
   },
   methods: {
     updateValue(e) {
-      this.$store.commit("updateParameterValue", {
-        index: this.index,
-        value: e.target.value,
-      });
-      /* Update range value when changing the value */
-      /* TODO: check if double update is needed */
-      this.range_value = e.target.value;
-    },
-    updateRangeValue(e) {
       /* Update value when changing the range value */
       this.$store.commit("updateParameterValue", {
         index: this.index,
         value: e.target.value,
       });
-      this.range_value = e.target.value;
+      this.$store.commit("updateParameterRangeValue", {
+        index: this.index,
+        range_value: e.target.value,
+      });
+      this.$store.commit("computeParametersZoomedIntervals");
     },
     freezeParameter() {
       this.$store.commit("updateParameterActiveState", {
@@ -119,6 +112,9 @@ export default {
       },
       value(state) {
         return parseFloat(state.parameters[this.index].value);
+      },
+      range_value(state) {
+        return parseFloat(state.parameters[this.index].range_value);
       },
     }),
   },

@@ -1,5 +1,10 @@
 import { createStore } from "vuex";
 
+const map_values = function (value, in_min, in_max, out_min, out_max) {
+  return ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+};
+
+/* TODO: check min / max values. Allow negative values */
 export default createStore({
   state: {
     settings: {
@@ -27,9 +32,36 @@ export default createStore({
           name: "/parameter" + i,
           min: 0,
           max: 1,
+          zoomed_min: 0,
+          zoomed_max: 1,
           value: 0,
+          range_value: 0,
         });
       }
+    },
+    updateParametersValues(state, coordinates) {
+      /* Get coordinates scaled between 0 and 1, then update active parameters values */
+      var active_parameters = this.state.parameters.filter((p) => p.active);
+      active_parameters.forEach((param, i) => {
+        /* Apply zoom level */
+        param.value = map_values(
+          coordinates[i],
+          0,
+          1,
+          param.zoomed_min,
+          param.zoomed_max
+        );
+      });
+    },
+    computeParametersZoomedIntervals(state) {
+      /* Update zoomed parameters range */
+      this.state.parameters.forEach((param) => {
+        param.zoomed_min =
+          param.value - (param.value - param.min) * this.state.overview_zoom;
+        param.zoomed_max =
+          param.value + (param.max - param.value) * this.state.overview_zoom;
+        console.log();
+      });
     },
     resetToBookmark(state, payload) {
       this.state.overview_index = payload.overview_index;
@@ -41,6 +73,7 @@ export default createStore({
     },
     updateOverviewZoom(state, zoom) {
       this.state.overview_zoom = zoom;
+      this.commit("computeParametersZoomedIntervals");
     },
     updateParameterActiveState(state, payload) {
       this.state.parameters[payload.index].active = payload.active;
@@ -55,8 +88,17 @@ export default createStore({
       this.state.parameters[payload.index].name = payload.name;
     },
     updateParameterValue(state, payload) {
-      this.state.parameters[payload.index].value = payload.value;
+      this.state.parameters[payload.index].value = parseFloat(payload.value);
     },
+    updateParameterRangeValue(state, payload) {
+      this.state.parameters[payload.index].range_value = parseFloat(
+        payload.range_value
+      );
+    },
+    updateParametersRanges(state) {
+      this.state.parameters.forEach((p) => (p.range_value = p.value));
+    },
+    //TODO: add update for active parameters
   },
   actions: {},
   modules: {},

@@ -59,7 +59,7 @@ export default {
       /* Data verifications  TODO: add verifications and OSC connection test */
       if (this.settings_buffer.parameters_no > 21) {
         this.error_message =
-          "Error, parameters number should be smaller than 22.";
+          "Error, parameters number should be smaller than 21.";
         return;
       }
       if (this.settings_buffer.parameters_no < 1) {
@@ -71,9 +71,10 @@ export default {
         this.error_message = "Error, invalid port (must be inferior to 8000)";
         return;
       }
-      /* Compute granularity */
-      this.settings_buffer.granularity = Math.floor(
-        64 / this.settings_buffer.parameters_no
+      /* Compute granularity (max: 8)*/
+      this.settings_buffer.granularity = Math.min(
+        8,
+        Math.floor(63 / this.settings_buffer.parameters_no)
       );
       /* Commit settings to store */
       store.commit("updateSettings", this.settings_buffer);

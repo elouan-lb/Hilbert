@@ -28,6 +28,8 @@ export default {
     updateOverviewZoom(e) {
       /* Workaround to go from 1 to 0 */
       this.$store.commit("updateOverviewZoom", 1 - e.target.value);
+      /* Update range values */
+      this.$store.commit("updateParametersRanges");
     },
   },
   computed: {

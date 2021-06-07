@@ -24,3 +24,19 @@ npm run build
 ```
 npm run lint
 ```
+
+## Compile C code to WASM
+
+##### Download and install Emscripten
+
+https://emscripten.org/docs/getting_started/downloads.html
+
+##### Compile C code to WASM with Emscripten
+
+```bash
+emcc src/wasm/hilberttransposition.c -o hilberttransposition.js -s WASM_BIGINT -s EXPORTED_FUNCTIONS='["_coordinates_from_distance", "_distance_from_coordinates"]' -s MODULARIZE -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]'
+mv hilberttransposition.js src/wasm/
+mv hilberttransposition.wasm public/js/
+```
+
+Move the wasm file to js folder
