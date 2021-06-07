@@ -68,7 +68,7 @@ export default {
         index: this.index,
         range_value: e.target.value,
       });
-      this.$store.commit("computeParametersZoomedIntervals");
+      this.$store.commit("computeParameterZoomedInterval", this.index);
     },
     freezeParameter() {
       this.$store.commit("updateParameterActiveState", {

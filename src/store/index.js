@@ -56,12 +56,16 @@ export default createStore({
     computeParametersZoomedIntervals(state) {
       /* Update zoomed parameters range */
       this.state.parameters.forEach((param) => {
-        param.zoomed_min =
-          param.value - (param.value - param.min) * this.state.overview_zoom;
-        param.zoomed_max =
-          param.value + (param.max - param.value) * this.state.overview_zoom;
-        console.log();
+        this.commit("computeParameterZoomedInterval", param.index);
       });
+    },
+    computeParameterZoomedInterval(state, index) {
+      /* Update zoomed parameter range */
+      var param = this.state.parameters[index];
+      param.zoomed_min =
+        param.value - (param.value - param.min) * this.state.overview_zoom;
+      param.zoomed_max =
+        param.value + (param.max - param.value) * this.state.overview_zoom;
     },
     resetToBookmark(state, payload) {
       this.state.overview_index = payload.overview_index;
