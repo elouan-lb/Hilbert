@@ -64,15 +64,17 @@ export default createStore({
       /* Scale values to maximum coordinates range */
       var coordinates = []
       var max_coordinate = 2**this.state.settings.granularity - 1;
+      var max_index = 2**(this.state.settings.granularity*active_parameters.length) - 1;
 
       active_parameters.forEach(p => {
         coordinates.push(Math.floor(map_values(p.value, p.min, p.max, 0, max_coordinate)))
       });
-
+      console.log("Coordinates: " + coordinates)
       var distance_from_coordinates = instance.cwrap('distance_from_coordinates', 'number', ['array','number','number']);
-      var overview_index = distance_from_coordinates(coordinates, this.state.settings.granularity, this.state.settings.parameters_no);
-
-      console.log(overview_index);
+      var overview_index = distance_from_coordinates(coordinates, this.state.settings.granularity, active_parameters.length);
+      console.log("Index: " + overview_index)
+      this.state.overview_index = Number(overview_index) / max_index;
+      console.log("Index scaled: " + Number(overview_index) / max_index)
     },
     computeParametersZoomedIntervals(state) {
       /* Update zoomed parameters range */

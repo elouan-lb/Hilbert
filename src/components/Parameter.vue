@@ -48,6 +48,9 @@
 import store from "../store/index.js";
 import { mapState } from "vuex";
 
+/*TODO: re-compute range when changing min, max */
+/*TODO: re-compute index when changing zoom level */
+
 export default {
   name: "Parameter",
   store,
