@@ -22,7 +22,7 @@
  *
  *   returns: pointer to the resulting string, same as parameter `result`
  */
-char *integertostring(unsigned long long value, char *result, int base)
+char *integertostring(uint64_t value, char *result, int base)
 {
     // check that the base if valid
     if ((base < 2) || (base > 36)) {
@@ -63,7 +63,7 @@ char *integertostring(unsigned long long value, char *result, int base)
  *
  *   returns: binary string representation of `num`
  */
-char *binary_representation(unsigned long long num, unsigned long width)
+char *binary_representation(uint64_t num, unsigned long width)
 {
     static char buffer[512];    // TODO: use malloc to avoid problem with sizes
 
@@ -100,7 +100,7 @@ char *binary_representation(unsigned long long num, unsigned long width)
  *
  *   returns: transpose of h (n components with values between 0 and 2^(p-1))
  */
-uint8_t *hilbert_integer_to_transpose(unsigned long long h, const unsigned long p, const unsigned long n)
+uint8_t *hilbert_integer_to_transpose(uint64_t h, const unsigned long p, const unsigned long n)
 {
     uint8_t *transpose  = malloc(n * sizeof(uint8_t));  // TODO: free
     char    *h_bit_str  = binary_representation(h, n * p);
@@ -138,7 +138,7 @@ uint8_t *hilbert_integer_to_transpose(unsigned long long h, const unsigned long 
  *
  *   returns: index along hilbert curve
  */
-unsigned long long transpose_to_hilbert_integer(uint8_t * X, const unsigned long p, const unsigned long n)
+uint64_t transpose_to_hilbert_integer(uint8_t * X, const unsigned long p, const unsigned long n)
 {
   char** x_bit_str = malloc(n * sizeof(char*));
 
@@ -160,7 +160,7 @@ unsigned long long transpose_to_hilbert_integer(uint8_t * X, const unsigned long
     }
   }
 
-  return (unsigned long long)strtol(h_bit_str, NULL, 2);
+  return (uint64_t)strtoull(h_bit_str, NULL, 2);
 }
 
 
@@ -173,12 +173,12 @@ unsigned long long transpose_to_hilbert_integer(uint8_t * X, const unsigned long
  *
  *   returns: array of coordinates in the n-dimensional space, with values between 0 and 2^(p-1)
  */
-uint8_t *coordinates_from_distance(const unsigned long long h, const unsigned long p, const unsigned long n)
+uint8_t *coordinates_from_distance(const uint64_t h, const unsigned long p, const unsigned long n)
 {
     uint8_t *X = hilbert_integer_to_transpose(h, p, n);
     // printf("INDEX : %llu, N: %lu, P: %lu \n", h, n, p);
 
-    unsigned long long max_h = (unsigned long long)pow(2, p * n);
+    uint64_t max_h = (uint64_t)pow(2, p * n);
 
     // printf("Max h from C code : %llu \n", max_h);
 
@@ -187,7 +187,7 @@ uint8_t *coordinates_from_distance(const unsigned long long h, const unsigned lo
         return NULL;
     }
 
-    unsigned long long N = (unsigned long long)2 << ((unsigned long long)p - 1), P, Q, t;
+    uint64_t N = (uint64_t)2 << ((uint64_t)p - 1), P, Q, t;
 
     int i;
 
@@ -226,14 +226,14 @@ uint8_t *coordinates_from_distance(const unsigned long long h, const unsigned lo
  *   X: an n-dimensional vector where each component value is between 0 and 2**p-1.
  *   p: the hilbert order, i.e. the number of cuts in each dimension n: number of parameters
  *
- *   returns: unsigned long long distance along hilbert curve
+ *   returns: uint64_t distance along hilbert curve
  */
-unsigned long long distance_from_coordinates(uint8_t *X, const unsigned long p, const unsigned long n)
+uint64_t distance_from_coordinates(uint8_t *X, const unsigned long p, const unsigned long n)
 {
   // TODO: check if the size of the X array is equal to n
 
     /* Check on variables sizes */
-    unsigned long long max_x = (unsigned long long)(pow(2, p) - 1);
+    uint64_t max_x = (uint64_t)(pow(2, p) - 1);
 
     for (int i = 0; i < n; i++) {
       if (X[i] > max_x) {
@@ -242,7 +242,7 @@ unsigned long long distance_from_coordinates(uint8_t *X, const unsigned long p, 
       }
     }
 
-    unsigned long long M = (unsigned long long)1 << ((unsigned long long)p - 1), P, Q, t;
+    uint64_t M = (uint64_t)1 << ((uint64_t)p - 1), P, Q, t;
 
     int i;
 
@@ -292,7 +292,7 @@ unsigned long long distance_from_coordinates(uint8_t *X, const unsigned long p, 
 // void main()
 // {
 //     /* TESTS (Index -> Coordinates) */
-//     unsigned long long index;
+//     uint64_t index;
 //
 //     printf("Enter an index (0 to exit) : \n");
 //     scanf("%llu", &index);
