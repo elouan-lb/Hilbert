@@ -76,7 +76,6 @@ export default createStore({
     computeHilbertIndex() {
       /* Compute Hilbert index according to coordinates values */
       var active_parameters = this.state.parameters.filter((p) => p.active);
-
       /* Scale values to maximum coordinates range */
       var coordinates = []
       var max_coordinate = 2**this.state.settings.granularity - 1;
@@ -122,22 +121,22 @@ export default createStore({
       this.commit("computeParametersZoomedIntervals");
     },
     updateParameterActiveState(state, payload) {
-      this.state.parameters[payload.index].active = payload.active;
+      this.state.parameters.find(p => p.index == payload.index).active = payload.active;
     },
     updateParameterMin(state, payload) {
-      this.state.parameters[payload.index].min = payload.min;
+      this.state.parameters.find(p => p.index == payload.index).min = payload.min;
     },
     updateParameterMax(state, payload) {
-      this.state.parameters[payload.index].max = payload.max;
+      this.state.parameters.find(p => p.index == payload.index).max = payload.max;
     },
     updateParameterName(state, payload) {
-      this.state.parameters[payload.index].name = payload.name;
+      this.state.parameters.find(p => p.index == payload.index).name = payload.name;
     },
     updateParameterValue(state, payload) {
-      this.state.parameters[payload.index].value = parseFloat(payload.value);
+      this.state.parameters.find(p => p.index == payload.index).value = parseFloat(payload.value);
     },
     updateParameterRangeValue(state, payload) {
-      this.state.parameters[payload.index].range_value = parseFloat(
+      this.state.parameters.find(p => p.index == payload.index).range_value = parseFloat(
         payload.range_value
       );
     },

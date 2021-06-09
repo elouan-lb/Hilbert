@@ -108,22 +108,22 @@ export default {
     ...mapState({
       overview_zoom: (state) => state.overview_zoom,
       active(state) {
-        return state.parameters[this.index].active;
+        return state.parameters.find(p => p.index == this.index).active;
       },
       min(state) {
-        return parseFloat(state.parameters[this.index].min);
+        return parseFloat(state.parameters.find(p => p.index == this.index).min);
       },
       max(state) {
-        return parseFloat(state.parameters[this.index].max);
+        return parseFloat(state.parameters.find(p => p.index == this.index).max);
       },
       name(state) {
-        return state.parameters[this.index].name;
+        return state.parameters.find(p => p.index == this.index).name;
       },
       value(state) {
-        return parseFloat(state.parameters[this.index].value);
+        return parseFloat(state.parameters.find(p => p.index == this.index).value);
       },
       range_value(state) {
-        return parseFloat(state.parameters[this.index].range_value);
+        return parseFloat(state.parameters.find(p => p.index == this.index).range_value);
       },
     }),
   },
