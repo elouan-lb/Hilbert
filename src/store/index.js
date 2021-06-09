@@ -52,7 +52,7 @@ export default createStore({
     },
     removeParameter(state, index) {
       this.state.parameters.splice(index, 1);
-      state.settings.parameters_no--;
+      state.settings.parameters_no -= 1;
       /* Compute granularity (max: 8)*/
       this.state.settings.granularity = Math.min(
         8,

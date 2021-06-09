@@ -123,23 +123,25 @@ export default {
 <style>
 .increment-button {
   min-width: 70px;
+  height: 20px;
 }
 
 .increment-button input {
-  width: 30px;
-  height: 16px;
+  width: 24px;
+  height: 20px;
   text-align: center;
-  border-width: 1px 0;
-  border-style: solid;
-  border-color: #bcbcbc;
+  border-width: 0;
 }
 
 .increment-button button {
-  width: 18px;
+  width: 20px;
   height: 20px;
   background-color: white;
   color: gray;
-  border: 1px solid #bcbcbc;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #bcbcbc;
+  padding: 0;
 }
 
 .increment-button button:hover {
@@ -149,11 +151,11 @@ export default {
 }
 
 .increment-button-minus {
-  border-radius: 3px 0 0 3px;
+  border-radius: 50%;
 }
 
 .increment-button-plus {
-  border-radius: 0 3px 3px 0;
+  border-radius: 50%;
 }
 #increment-button-value {
   pointer-events: none;
