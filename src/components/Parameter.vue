@@ -48,9 +48,6 @@
 import store from "../store/index.js";
 import { mapState } from "vuex";
 
-/*TODO: re-compute range when changing min, max */
-/*TODO: re-compute index when changing zoom level */
-
 export default {
   name: "Parameter",
   store,
@@ -85,12 +82,14 @@ export default {
         index: this.index,
         min: e.target.value,
       });
+      this.$store.commit("computeParameterZoomedInterval", this.index);
     },
     updateMax(e) {
       this.$store.commit("updateParameterMax", {
         index: this.index,
         max: e.target.value,
       });
+      this.$store.commit("computeParameterZoomedInterval", this.index);
     },
     updateName(e) {
       this.$store.commit("updateParameterName", {

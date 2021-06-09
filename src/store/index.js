@@ -69,12 +69,15 @@ export default createStore({
       active_parameters.forEach(p => {
         coordinates.push(Math.floor(map_values(p.value, p.min, p.max, 0, max_coordinate)))
       });
-      console.log("Coordinates: " + coordinates)
       var distance_from_coordinates = instance.cwrap('distance_from_coordinates', 'number', ['array','number','number']);
       var overview_index = distance_from_coordinates(coordinates, this.state.settings.granularity, active_parameters.length);
-      console.log("Index: " + overview_index)
       this.state.overview_index = Number(overview_index) / max_index;
-      console.log("Index scaled: " + Number(overview_index) / max_index)
+
+      // console.log("n: " + active_parameters.length)
+      // console.log("p: " + this.state.settings.granularity)
+      // console.log("Coordinates: " + coordinates)
+      // console.log("Index: " + overview_index)
+      // console.log("Index scaled: " + Number(overview_index) / max_index)
     },
     computeParametersZoomedIntervals(state) {
       /* Update zoomed parameters range */
@@ -125,7 +128,6 @@ export default createStore({
     updateParametersRanges(state) {
       this.state.parameters.forEach((p) => (p.range_value = p.value));
     },
-    //TODO: add update for active parameters
   },
   actions: {
     async loadHilbertModule() {
