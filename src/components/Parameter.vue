@@ -41,6 +41,9 @@
       <img v-if="active" src="../assets/imgs/opened_eye.png" />
       <img v-else src="../assets/imgs/closed_eye.png" />
     </div>
+    <div class="delete-parameter" @click="removeParameter">
+      <div class="delete-parameter-cross-1"><div class="delete-parameter-cross-2"></div></div>
+    </div>
   </div>
 </template>
 
@@ -76,6 +79,9 @@ export default {
         index: this.index,
         active: !this.active,
       });
+    },
+    removeParameter() {
+      this.$store.commit("removeParameter", this.index);
     },
     updateMin(e) {
       this.$store.commit("updateParameterMin", {

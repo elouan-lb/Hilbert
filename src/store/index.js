@@ -50,6 +50,15 @@ export default createStore({
         Math.floor(63 / n)
       );
     },
+    removeParameter(state, index) {
+      this.state.parameters.splice(index, 1);
+      state.settings.parameters_no--;
+      /* Compute granularity (max: 8)*/
+      this.state.settings.granularity = Math.min(
+        8,
+        Math.floor(63 / state.settings.parameters_no)
+      );
+    },
     updateParametersValues(state, coordinates) {
       /* Get coordinates scaled between 0 and 1, then update active parameters values */
       var active_parameters = this.state.parameters.filter((p) => p.active);

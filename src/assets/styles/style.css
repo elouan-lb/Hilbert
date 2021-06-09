@@ -185,7 +185,7 @@ h2 {
 
 .parameters-section {
   display: grid;
-  grid-template-columns: 3fr 1fr 0.2fr;
+  grid-template-columns: 3fr 1fr 0.2fr 0.2fr;
   margin-top: 20px;
 }
 .parameters-slider-container {
@@ -229,8 +229,30 @@ input {
 }
 .activate-parameter img {
   width: 20px;
-  padding: 4px;
+  padding: 8px 20px 8px 8px;
   cursor: pointer;
+}
+.delete-parameter {
+  margin-top: 8px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+.delete-parameter-cross-1 {
+  top: 20px;
+  height: 18px;
+  width: 1px;
+  margin-left: 12px;
+  background-color: #4f4f4f;
+  transform: rotate(45deg);
+  Z-index: 1;
+}
+.delete-parameter-cross-2 {
+  height: 18px;
+  width: 1px;
+  background-color: #4f4f4f;
+  transform: rotate(90deg);
+  Z-index: 2;
 }
 
 /* Parameters slider */
