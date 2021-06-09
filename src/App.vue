@@ -71,7 +71,7 @@ export default {
   store,
   data: function () {
     return {
-      display_settings: true,
+      display_settings: false,
     };
   },
   computed: {
