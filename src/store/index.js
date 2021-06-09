@@ -30,13 +30,13 @@ export default createStore({
       /* Add or remove last parameter */
       if (state.settings.parameters_no < n) {
         this.state.parameters.push({
-          index: n,
+          index: (n-1),
           active: true,
-          name: "/parameter" + n,
+          name: "/parameter" + (n-1),
           min: 0,
           max: 1,
           zoomed_min: 0,
-          zoomed_max: 1,
+          zoomed_max: this.state.overview_zoom,
           value: 0,
           range_value: 0,
         });
@@ -103,7 +103,7 @@ export default createStore({
     },
     computeParameterZoomedInterval(state, index) {
       /* Update zoomed parameter range */
-      var param = this.state.parameters[index];
+      var param = this.state.parameters.find(p => p.index == index);
       param.zoomed_min =
         param.value - (param.value - param.min) * this.state.overview_zoom;
       param.zoomed_max =
