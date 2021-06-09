@@ -12,7 +12,7 @@ var instance; /* WASM instance */
 export default createStore({
   state: {
     settings: {
-      parameters_no: 4,
+      parameters_no: 0,
       host: "",
       port: 0,
       granularity: 0,
@@ -25,15 +25,14 @@ export default createStore({
     updateSettings(state, payload) {
       /* Update settings */
       state.settings = payload;
-      this.commit("resetParameters");
     },
-    resetParameters(state) {
-      state.parameters = [];
-      for (var i = 0; i < state.settings.parameters_no; i++) {
-        state.parameters.push({
-          index: i,
+    updateParametersNo(state, n) {
+      /* Add or remove last parameter */
+      if (state.settings.parameters_no < n) {
+        this.state.parameters.push({
+          index: n,
           active: true,
-          name: "/parameter" + i,
+          name: "/parameter" + n,
           min: 0,
           max: 1,
           zoomed_min: 0,
@@ -41,7 +40,15 @@ export default createStore({
           value: 0,
           range_value: 0,
         });
+      } else {
+        this.state.parameters.pop();
       }
+      state.settings.parameters_no = n;
+      /* Compute granularity (max: 8)*/
+      this.state.settings.granularity = Math.min(
+        8,
+        Math.floor(63 / n)
+      );
     },
     updateParametersValues(state, coordinates) {
       /* Get coordinates scaled between 0 and 1, then update active parameters values */

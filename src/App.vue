@@ -32,6 +32,7 @@
       <div class="parameters section-container">
         <div class="parameters-header">
           <h2>Parameters</h2>
+          <IncrementButton @input="updateParametersNo" :value="parameters_no" :min="0" :max="21"/>
         </div>
         <div class="parameter-section-list">
           <Parameter
@@ -40,9 +41,7 @@
             :index="index"
           />
         </div>
-        <div class="parameters-background-canvas">
-          <canvas id="canvas"></canvas>
-        </div>
+        <!-- <Canvas /> -->
       </div>
     </div>
   </div>
@@ -50,20 +49,26 @@
 
 <script>
 import Bookmark from "./components/Bookmark.vue";
+import Canvas from "./components/Canvas.vue";
+import IncrementButton from "./components/IncrementButton.vue";
 import OverviewIndex from "./components/OverviewIndex.vue";
 import OverviewZoom from "./components/OverviewZoom.vue";
 import Parameter from "./components/Parameter.vue";
 import Settings from "./components/Settings.vue";
+import store from "./store/index.js";
 
 export default {
   name: "App",
   components: {
     Bookmark,
+    Canvas,
+    IncrementButton,
     OverviewIndex,
     OverviewZoom,
     Parameter,
     Settings,
   },
+  store,
   data: function () {
     return {
       display_settings: true,
@@ -78,7 +83,15 @@ export default {
     parameters() {
       return this.$store.state.parameters;
     },
+    parameters_no() {
+      return this.$store.state.settings.parameters_no;
+    },
   },
+  methods: {
+    updateParametersNo(e) {
+      this.$store.commit("updateParametersNo", e);
+    }
+  }
 };
 </script>
 

@@ -193,6 +193,10 @@ h2 {
   grid-template-columns: 0.1fr 1fr 0.1fr;
   justify-content: center;
 }
+.parameters-header h2{
+  display: inline-block;
+  margin-right: 20px;
+}
 input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;

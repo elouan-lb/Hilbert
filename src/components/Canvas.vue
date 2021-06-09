@@ -1,10 +1,14 @@
-<template><div></div></template>
+<template>
+  <div class="parameters-background-canvas">
+    <canvas id="canvas"></canvas>
+  </div>
+</template>
 
 <script>
 import store from "../store/index.js";
 
 export default {
-  name: "Component",
+  name: "Canvas",
   store,
   data: function () {
     return {};

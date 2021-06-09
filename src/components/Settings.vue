@@ -1,12 +1,5 @@
 <template>
   <div class="settings section-container">
-    <h2>Number of parameters</h2>
-    <input
-      type="number"
-      id="settings-parameters-no"
-      name="settings-parameters-no"
-      v-model="settings_buffer.parameters_no"
-    />
     <h2>Host destination</h2>
     <input
       type="text"
@@ -57,25 +50,10 @@ export default {
   methods: {
     save_settings() {
       /* Data verifications  TODO: add verifications and OSC connection test */
-      if (this.settings_buffer.parameters_no > 21) {
-        this.error_message =
-          "Error, parameters number should be smaller than 21.";
-        return;
-      }
-      if (this.settings_buffer.parameters_no < 1) {
-        this.error_message =
-          "Error, parameters number should be greater than 0.";
-        return;
-      }
       if (this.settings_buffer.port > 8000) {
         this.error_message = "Error, invalid port (must be inferior to 8000)";
         return;
       }
-      /* Compute granularity (max: 8)*/
-      this.settings_buffer.granularity = Math.min(
-        8,
-        Math.floor(63 / this.settings_buffer.parameters_no)
-      );
       /* Commit settings to store */
       store.commit("updateSettings", this.settings_buffer);
       this.validation_message = "Modifications saved.";
