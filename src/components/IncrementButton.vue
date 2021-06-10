@@ -117,6 +117,11 @@ export default {
       return parseInt(this.value, 10);
     },
   },
+  watch: {
+    value: function(newValue, oldValue) {
+      this.newValue = newValue;
+    }
+  }
 };
 </script>
 
