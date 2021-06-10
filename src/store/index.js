@@ -30,9 +30,8 @@ export default createStore({
       /* Add or remove last parameter */
       if (state.settings.parameters_no < n) {
         this.state.parameters.push({
-          index: (n-1),
           active: true,
-          name: "/parameter" + (n-1),
+          name: "/parameter-name",
           min: 0,
           max: 1,
           zoomed_min: 0,
@@ -76,6 +75,7 @@ export default createStore({
     computeHilbertIndex() {
       /* Compute Hilbert index according to coordinates values */
       var active_parameters = this.state.parameters.filter((p) => p.active);
+
       /* Scale values to maximum coordinates range */
       var coordinates = []
       var max_coordinate = 2**this.state.settings.granularity - 1;
@@ -96,13 +96,13 @@ export default createStore({
     },
     computeParametersZoomedIntervals(state) {
       /* Update zoomed parameters range */
-      this.state.parameters.forEach((param) => {
-        this.commit("computeParameterZoomedInterval", param.index);
+      this.state.parameters.forEach((param, index) => {
+        this.commit("computeParameterZoomedInterval", index);
       });
     },
     computeParameterZoomedInterval(state, index) {
       /* Update zoomed parameter range */
-      var param = this.state.parameters.find(p => p.index == index);
+      var param = this.state.parameters[index];
       param.zoomed_min =
         param.value - (param.value - param.min) * this.state.overview_zoom;
       param.zoomed_max =
@@ -121,22 +121,22 @@ export default createStore({
       this.commit("computeParametersZoomedIntervals");
     },
     updateParameterActiveState(state, payload) {
-      this.state.parameters.find(p => p.index == payload.index).active = payload.active;
+      this.state.parameters[payload.index].active = payload.active;
     },
     updateParameterMin(state, payload) {
-      this.state.parameters.find(p => p.index == payload.index).min = payload.min;
+      this.state.parameters[payload.index].min = payload.min;
     },
     updateParameterMax(state, payload) {
-      this.state.parameters.find(p => p.index == payload.index).max = payload.max;
+      this.state.parameters[payload.index].max = payload.max;
     },
     updateParameterName(state, payload) {
-      this.state.parameters.find(p => p.index == payload.index).name = payload.name;
+      this.state.parameters[payload.index].name = payload.name;
     },
     updateParameterValue(state, payload) {
-      this.state.parameters.find(p => p.index == payload.index).value = parseFloat(payload.value);
+      this.state.parameters[payload.index].value = parseFloat(payload.value);
     },
     updateParameterRangeValue(state, payload) {
-      this.state.parameters.find(p => p.index == payload.index).range_value = parseFloat(
+      this.state.parameters[payload.index].range_value = parseFloat(
         payload.range_value
       );
     },

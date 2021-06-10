@@ -38,7 +38,7 @@
           <Parameter
             v-for="(p, index) in parameters"
             :key="p.index"
-            :index="p.index"
+            :index="index"
           />
         </div>
         <!-- <Canvas /> -->
