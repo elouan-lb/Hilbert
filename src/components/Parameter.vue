@@ -38,10 +38,10 @@
       class="parameter-name"
     />
     <div class="activate-parameter" @click="freezeParameter">
-      <img v-if="active" src="../assets/imgs/opened_eye.png" />
-      <img v-else src="../assets/imgs/closed_eye.png" />
+      <img v-if="active" src="../assets/imgs/opened_eye.png"  title="Freeze"/>
+      <img v-else src="../assets/imgs/closed_eye.png" title="Unfreeze"/>
     </div>
-    <div class="delete-parameter" @click="removeParameter">
+    <div class="delete-parameter" @click="removeParameter" title="Delete">
       <div class="delete-parameter-cross-1"><div class="delete-parameter-cross-2"></div></div>
     </div>
   </div>
