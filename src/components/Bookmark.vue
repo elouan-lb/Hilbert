@@ -1,10 +1,11 @@
 <template>
-  <button
-    class="bookmark-btn"
-    :class="{ active: active }"
-    @click="click"
-    @dblclick="doubleClick"
-  ></button>
+  <button class="bookmark-btn active" :class="{selected: selected}" ref="bookmarkname" @mouseover="mouseover" @mouseleave="mouseleave">
+    <div class="bookmark-btn-content">
+      <input type="text" ref="bookmarkname" class="bookmark-name" value="New bookmark">
+      <img class="bookmark-load-icon" src="../assets/imgs/load_icon.png" title="Load this bookmark">
+      <img class="bookmark-trash-icon" src="../assets/imgs/trash_icon.png" title="Delete this bookmark">
+    </div>
+  </button>
 </template>
 
 <script>
@@ -13,18 +14,25 @@ import store from "../store/index.js";
 export default {
   name: "Bookmark",
   store,
+  props: ['index'],
   data: function () {
     return {
-      active: false,
       saved_state: {} /* Object where current state is bookmarked */,
     };
   },
   methods: {
-    click() {
+    select() {
+      this.$refs.bookmarkname.select();
+    },
+    mouseover() {
       /* If active, return to bookmark */
       if (this.active) {
         this.$store.commit("resetToBookmark", this.saved_state);
       }
+      this.$store.commit("mouseoverBookmark", this.index);
+    },
+    mouseleave() {
+      this.$store.commit("mouseleaveBookmark", this.index);
     },
     doubleClick() {
       /* If inactive, save bookmark */
@@ -46,6 +54,9 @@ export default {
         parameters: this.$store.state.parameters,
       };
     },
+    selected() {
+      return this.$store.state.bookmarks[this.index].selected;
+    }
   },
 };
 </script>

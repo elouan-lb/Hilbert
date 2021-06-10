@@ -49,40 +49,80 @@ h2 {
 #title-settings.active {
   color: #4f4f4f;
 }
+
 /* BOOKMARKS */
 .bookmarks {
 }
 
-.bookmarks-header {
+.add-bookmark-btn {
+  background-color: #a8e3a1; /* Green */
+  border: none;
+  color: #1d8f10;
+  padding: 4px 12px;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  margin-left: 8px;
+  cursor: pointer;
 }
+.add-bookmark-btn:hover {
+  background-color: #83c77b; /* Green */
 
+}
 .bookmarks-list {
+  display: flex;
   overflow: hidden;
-  height: 28px;
+  height: 26px;
 }
-
 .bookmark-btn {
-  background-color: #f1f1f1;
-  height: 12px;
-  width: 12px;
-  padding: 0;
-  border-radius: 50%;
+  background-color: #F1F1F1;
+  height: 26px;
+  min-width: 26px;
+  max-width: 26px;
+  border-radius: 13px;
+  font-size: 14px;
   border: none;
   margin-left: 4px;
   margin-right: 4px;
   cursor: pointer;
+  text-align: left;
+  transition: max-width 1s ease;
 }
-
+.bookmark-btn-content {
+  padding-left: 14px;
+  padding-right: 8px;
+  margin-bottom: 8px;
+  height: 26px;
+  width: auto;
+  overflow: hidden;
+  color:#4F4F4F;
+  opacity: 0%;
+  transition: opacity .8s ease;
+}
+.bookmark-name {
+  background: transparent;
+  margin: 0;
+  padding-top: 4px;
+  width: 120px;
+}
+.bookmark-btn.selected {
+  max-width: 400px;
+}
+.selected .bookmark-btn-content{
+  opacity: 100%;
+}
+.bookmark-btn img {
+  height: 19px;
+  position: relative;
+  top: 3px;
+  cursor: pointer;
+}
 .bookmark-btn.active {
-  background-color: #fb9595;
+  background-color: #FB9595;
 }
-.bookmark-btn:hover {
-  background-color: #f7b7b7;
-}
-.bookmark-btn.active:hover {
-  background-color: #fa7575;
-}
-
 /* OVERVIEW */
 
 .overview {

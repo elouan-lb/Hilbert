@@ -20,6 +20,7 @@ export default createStore({
     overview_zoom: 1 /* 1: no zoom, 0: maximum zoom */,
     overview_index: 0 /* From 0 to 1 */,
     parameters: [],
+    bookmarks: [],
   },
   mutations: {
     updateSettings(state, payload) {
@@ -143,6 +144,15 @@ export default createStore({
     updateParametersRanges(state) {
       this.state.parameters.forEach((p) => (p.range_value = p.value));
     },
+    addBookmark(state) {
+      this.state.bookmarks.push({"name": "New bookmark", "selected": false})
+    },
+    mouseoverBookmark(state, index) {
+      this.state.bookmarks[index].selected = true;
+    },
+    mouseleaveBookmark(state, index) {
+      this.state.bookmarks[index].selected = false;
+    }
   },
   actions: {
     async loadHilbertModule() {

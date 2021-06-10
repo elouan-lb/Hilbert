@@ -13,13 +13,12 @@
     <div v-show="!display_settings">
       <div class="bookmarks section-container">
         <div class="bookmarks-header">
-          <h2>Bookmarks</h2>
+          <h2>Bookmarks
+            <button class="add-bookmark-btn" title="Save a new bookmark" @click="addBookmark">Add</button>
+          </h2>
         </div>
         <div class="bookmarks-list">
-          <Bookmark />
-          <Bookmark />
-          <Bookmark />
-          <Bookmark />
+          <Bookmark v-for="(bookmark, index) in bookmarks" :key="index" :index="index" ref="bookmarks"/>
         </div>
       </div>
       <div class="overview section-container">
@@ -86,8 +85,16 @@ export default {
     parameters_no() {
       return this.$store.state.settings.parameters_no;
     },
+    bookmarks() {
+      return this.$store.state.bookmarks;
+    },
   },
   methods: {
+    addBookmark() {
+      this.$store.commit("addBookmark");
+      /* Focus on input for name */
+      console.log(this.$refs.bookmarks);
+    },
     updateParametersNo(e) {
       this.$store.commit("updateParametersNo", e);
     }
