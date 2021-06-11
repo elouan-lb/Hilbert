@@ -32,7 +32,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     value: {
@@ -118,10 +117,10 @@ export default {
     },
   },
   watch: {
-    value: function(newValue, oldValue) {
+    value: function (newValue, oldValue) {
       this.newValue = newValue;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,9 +1,28 @@
 <template>
-  <button class="bookmark-btn active" :class="{selected: selected}" ref="bookmarkname" @mouseover="mouseover" @mouseleave="mouseleave">
+  <button
+    class="bookmark-btn active"
+    :class="{ selected: selected }"
+    ref="bookmarkname"
+    @mouseover="mouseover"
+    @mouseleave="mouseleave"
+  >
     <div class="bookmark-btn-content">
-      <input type="text" ref="bookmarkname" class="bookmark-name" value="New bookmark">
-      <img class="bookmark-load-icon" src="../assets/imgs/load_icon.png" title="Load this bookmark">
-      <img class="bookmark-trash-icon" src="../assets/imgs/trash_icon.png" title="Delete this bookmark">
+      <input
+        type="text"
+        ref="bookmarkname"
+        class="bookmark-name"
+        value="New bookmark"
+      />
+      <img
+        class="bookmark-load-icon"
+        src="../assets/imgs/load_icon.png"
+        title="Load this bookmark"
+      />
+      <img
+        class="bookmark-trash-icon"
+        src="../assets/imgs/trash_icon.png"
+        title="Delete this bookmark"
+      />
     </div>
   </button>
 </template>
@@ -14,7 +33,7 @@ import store from "../store/index.js";
 export default {
   name: "Bookmark",
   store,
-  props: ['index'],
+  props: ["index"],
   data: function () {
     return {
       saved_state: {} /* Object where current state is bookmarked */,
@@ -56,7 +75,7 @@ export default {
     },
     selected() {
       return this.$store.state.bookmarks[this.index].selected;
-    }
+    },
   },
 };
 </script>

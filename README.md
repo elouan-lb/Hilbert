@@ -20,11 +20,6 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
 ## Compile C code to WASM
 
 ##### Download and install Emscripten

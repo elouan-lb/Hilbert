@@ -38,11 +38,13 @@
       class="parameter-name"
     />
     <div class="activate-parameter" @click="freezeParameter">
-      <img v-if="active" src="../assets/imgs/opened_eye.png"  title="Freeze"/>
-      <img v-else src="../assets/imgs/closed_eye.png" title="Unfreeze"/>
+      <img v-if="active" src="../assets/imgs/opened_eye.png" title="Freeze" />
+      <img v-else src="../assets/imgs/closed_eye.png" title="Unfreeze" />
     </div>
     <div class="delete-parameter" @click="removeParameter" title="Delete">
-      <div class="delete-parameter-cross-1"><div class="delete-parameter-cross-2"></div></div>
+      <div class="delete-parameter-cross-1">
+        <div class="delete-parameter-cross-2"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -128,7 +130,7 @@ export default {
     }),
   },
   async created() {
-    this.$store.dispatch("loadHilbertModule")
-  }
+    this.$store.dispatch("loadHilbertModule");
+  },
 };
 </script>
