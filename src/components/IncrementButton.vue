@@ -140,28 +140,22 @@ export default {
 .increment-button button {
   width: 20px;
   height: 20px;
-  background-color: white;
+  background-color: #f1f1f1;
   color: gray;
   border-width: 1px;
   border-style: solid;
   border-color: #bcbcbc;
   padding: 0;
+  border-radius: 20%;
 }
 
 .increment-button button:hover {
-  background-color: #bcbcbc;
-  color: white;
+  background-color: #e6e6e6;
   cursor: pointer;
 }
 
-.increment-button-minus {
-  border-radius: 50%;
-}
-
-.increment-button-plus {
-  border-radius: 50%;
-}
 #increment-button-value {
+  background-color: transparent;
   pointer-events: none;
 }
 </style>

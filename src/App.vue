@@ -11,27 +11,28 @@
     </div>
     <Settings v-show="display_settings" />
     <div v-show="!display_settings">
-      <div class="bookmarks section-container">
-        <div class="bookmarks-header">
-          <h2>Bookmarks
-            <button class="add-bookmark-btn" title="Save a new bookmark" @click="addBookmark">Add</button>
+      <div class="snapshots section-container">
+        <div class="snapshots-header">
+          <h2>Snapshots
           </h2>
+            <button class="add-snapshot-btn" title="Add a new working snapshot" @click="addsnapshot">Save</button>
+            <button class="add-snapshot-btn" title="Add a new working snapshot" @click="addsnapshot">Save new</button>
         </div>
-        <div class="bookmarks-list">
-          <Bookmark v-for="(bookmark, index) in bookmarks" :key="index" :index="index" ref="bookmarks"/>
+        <div class="snapshots-list">
+          <snapshot v-for="(snapshot, index) in snapshots" :key="index" :index="index" />
         </div>
       </div>
       <div class="overview section-container">
         <div class="overview-header">
           <h2>Overview</h2>
-          <OverviewZoom />
         </div>
         <OverviewIndex />
       </div>
       <div class="parameters section-container">
         <div class="parameters-header">
           <h2>Parameters</h2>
-          <IncrementButton @input="updateParametersNo" :value="parameters_no" :min="0" :max="21"/>
+          <IncrementButton class="parameters-no-btn" @input="updateParametersNo" :value="parameters_no" :min="0" :max="21"/>
+          <OverviewZoom />
         </div>
         <div class="parameter-section-list">
           <Parameter
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-import Bookmark from "./components/Bookmark.vue";
+import Snapshot from "./components/Snapshot.vue";
 import Canvas from "./components/Canvas.vue";
 import IncrementButton from "./components/IncrementButton.vue";
 import OverviewIndex from "./components/OverviewIndex.vue";
@@ -59,7 +60,7 @@ import store from "./store/index.js";
 export default {
   name: "App",
   components: {
-    Bookmark,
+    Snapshot,
     Canvas,
     IncrementButton,
     OverviewIndex,
@@ -85,15 +86,13 @@ export default {
     parameters_no() {
       return this.$store.state.settings.parameters_no;
     },
-    bookmarks() {
-      return this.$store.state.bookmarks;
+    snapshots() {
+      return this.$store.state.snapshots;
     },
   },
   methods: {
-    addBookmark() {
-      this.$store.commit("addBookmark");
-      /* Focus on input for name */
-      console.log(this.$refs.bookmarks);
+    addsnapshot() {
+      this.$store.commit("addsnapshot");
     },
     updateParametersNo(e) {
       this.$store.commit("updateParametersNo", e);

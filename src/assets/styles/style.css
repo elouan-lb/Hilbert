@@ -50,11 +50,11 @@ h2 {
   color: #4f4f4f;
 }
 
-/* BOOKMARKS */
-.bookmarks {
+/* WORKING COPIES */
+.snapshots {
 }
 
-.add-bookmark-btn {
+.add-snapshot-btn {
   background-color: #a8e3a1; /* Green */
   border: none;
   color: #1d8f10;
@@ -68,61 +68,78 @@ h2 {
   margin-left: 8px;
   cursor: pointer;
 }
-.add-bookmark-btn:hover {
+.add-snapshot-btn:hover {
   background-color: #83c77b; /* Green */
 
 }
-.bookmarks-list {
+.snapshots-list {
+  display: grid;
   display: flex;
+  flex-wrap:wrap;
+  gap: 8px;
   overflow: hidden;
-  height: 26px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
-.bookmark-btn {
-  background-color: #F1F1F1;
+.snapshot-btn {
+  flex-basis: 15%;
+  background-color: #f1f1f1;
   height: 26px;
-  min-width: 26px;
-  max-width: 26px;
+  /* max-width: 200px; */
+  /* max-width: 400px; */
+
   border-radius: 13px;
   font-size: 14px;
   border: none;
-  margin-left: 4px;
-  margin-right: 4px;
   cursor: pointer;
   text-align: left;
   transition: max-width 1s ease;
 }
-.bookmark-btn-content {
+input.snapshot-name {
+  width: auto;
+}
+.snapshot-btn-content {
   padding-left: 14px;
   padding-right: 8px;
   margin-bottom: 8px;
   height: 26px;
-  width: auto;
+  /* width: auto; */
   overflow: hidden;
   color:#4F4F4F;
-  opacity: 0%;
-  transition: opacity .8s ease;
+  /* opacity: 0%; */
+  /* transition: opacity .8s ease; */
 }
-.bookmark-name {
+.snapshot-name {
   background: transparent;
   margin: 0;
   padding-top: 4px;
-  width: 120px;
+  /* width: 120px; */
+  pointer-events: none;
 }
-.bookmark-btn.selected {
-  max-width: 400px;
+.snapshot-btn.selected {
+  /* max-width: 400px; */
+  box-shadow: 0 0 4px 2px #cee5ff;
 }
-.selected .bookmark-btn-content{
+.selected .snapshot-btn-content{
   opacity: 100%;
 }
-.bookmark-btn img {
+.snapshot-btn img {
   height: 19px;
   position: relative;
   top: 3px;
   cursor: pointer;
 }
-.bookmark-btn.active {
-  background-color: #FB9595;
+
+/* PARAMETERS NO */
+
+.parameters-no-btn {
+  padding: 8px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
 }
+
 /* OVERVIEW */
 
 .overview {
@@ -134,14 +151,23 @@ h2 {
 .overview-header h2 {
   display: inline-block;
 }
+#detail-title {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: lighter;
+  color: #4f4f4f;
+  background-color: #f1f1f1;
+  margin: 0;
+}
 .overview-zoom {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 8px;
+  margin-left: 12px;
   padding: 8px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
 }
-
 .overview-zoom span {
   margin-left: 8px;
   margin-right: 8px;
@@ -415,3 +441,5 @@ canvas {
 #settings-save:hover {
   color: #8fc0fa;
 }
+
+/* TRANSITIONS */

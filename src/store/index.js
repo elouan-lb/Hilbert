@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 import moduleWasm from "../wasm/hilberttransposition.js";
 
-
 const map_values = function (value, in_min, in_max, out_min, out_max) {
   return ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 };
@@ -12,7 +11,7 @@ var instance; /* WASM instance */
 export default createStore({
   state: {
     settings: {
-      parameters_no: 0,
+      parameters_no: 0 /* TODO: compute parameters_no */,
       host: "",
       port: 0,
       granularity: 0,
@@ -20,7 +19,12 @@ export default createStore({
     overview_zoom: 1 /* 1: no zoom, 0: maximum zoom */,
     overview_index: 0 /* From 0 to 1 */,
     parameters: [],
-    bookmarks: [],
+    snapshots: [
+      {
+        name: "Snapshot 0",
+        selected: true,
+      },
+    ],
   },
   mutations: {
     updateSettings(state, payload) {
@@ -45,10 +49,7 @@ export default createStore({
       }
       state.settings.parameters_no = n;
       /* Compute granularity (max: 8)*/
-      this.state.settings.granularity = Math.min(
-        8,
-        Math.floor(63 / n)
-      );
+      this.state.settings.granularity = Math.min(8, Math.floor(63 / n));
     },
     removeParameter(state, index) {
       this.state.parameters.splice(index, 1);
@@ -78,15 +79,26 @@ export default createStore({
       var active_parameters = this.state.parameters.filter((p) => p.active);
 
       /* Scale values to maximum coordinates range */
-      var coordinates = []
-      var max_coordinate = 2**this.state.settings.granularity - 1;
-      var max_index = 2**(this.state.settings.granularity*active_parameters.length) - 1;
+      var coordinates = [];
+      var max_coordinate = 2 ** this.state.settings.granularity - 1;
+      var max_index =
+        2 ** (this.state.settings.granularity * active_parameters.length) - 1;
 
-      active_parameters.forEach(p => {
-        coordinates.push(Math.floor(map_values(p.value, p.min, p.max, 0, max_coordinate)))
+      active_parameters.forEach((p) => {
+        coordinates.push(
+          Math.floor(map_values(p.value, p.min, p.max, 0, max_coordinate))
+        );
       });
-      var distance_from_coordinates = instance.cwrap('distance_from_coordinates', 'number', ['array','number','number']);
-      var overview_index = distance_from_coordinates(coordinates, this.state.settings.granularity, active_parameters.length);
+      var distance_from_coordinates = instance.cwrap(
+        "distance_from_coordinates",
+        "number",
+        ["array", "number", "number"]
+      );
+      var overview_index = distance_from_coordinates(
+        coordinates,
+        this.state.settings.granularity,
+        active_parameters.length
+      );
       this.state.overview_index = Number(overview_index) / max_index;
 
       // console.log("n: " + active_parameters.length)
@@ -108,11 +120,6 @@ export default createStore({
         param.value - (param.value - param.min) * this.state.overview_zoom;
       param.zoomed_max =
         param.value + (param.max - param.value) * this.state.overview_zoom;
-    },
-    resetToBookmark(state, payload) {
-      this.state.overview_index = payload.overview_index;
-      this.state.overview_zoom = payload.overview_zoom;
-      this.state.parameters = payload.parameters;
     },
     updateOverviewIndex(state, index) {
       this.state.overview_index = index;
@@ -144,20 +151,39 @@ export default createStore({
     updateParametersRanges(state) {
       this.state.parameters.forEach((p) => (p.range_value = p.value));
     },
-    addBookmark(state) {
-      this.state.bookmarks.push({"name": "New bookmark", "selected": false})
+    addsnapshot(state) {
+      /* Unselect every other snapshot */
+      this.state.snapshots.forEach((b) => {
+        b.selected = false;
+      });
+
+      this.state.snapshots.push({
+        name: "Snapshot " + this.state.snapshots.length,
+        selected: true,
+      });
     },
-    mouseoverBookmark(state, index) {
-      this.state.bookmarks[index].selected = true;
+    selectsnapshot(state, payload) {
+      var snapshot = this.state.snapshots[payload.index];
+      /* Unselect every other snapshot */
+      this.state.snapshots.forEach((b) => {
+        b.selected = false;
+      });
+      /* Reset data */
+      this.state.settings.parameters_no = payload.state.parameters_no;
+      this.state.overview_zoom = payload.state.overview_zoom;
+      this.state.overview_index = payload.state.overview_index;
+      this.state.parameters = payload.state.parameters;
+      /* Select snapshot */
+      this.state.snapshots[payload.index].selected = true;
     },
-    mouseleaveBookmark(state, index) {
-      this.state.bookmarks[index].selected = false;
-    }
+    deletesnapshot(state, index) {
+      this.state.snapshots.splice(index, 1);
+    },
   },
   actions: {
     async loadHilbertModule() {
       instance = await moduleWasm();
-    }
+    },
   },
   modules: {},
 });
