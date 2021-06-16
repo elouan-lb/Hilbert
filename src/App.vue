@@ -1,4 +1,4 @@
-<template>
+Snapshots<template>
   <div class="main-container">
     <div class="header section-container">
       <h1 id="title-main">Hilbert-standalone</h1>
@@ -13,12 +13,17 @@
     <div v-show="!display_settings">
       <div class="snapshots section-container">
         <div class="snapshots-header">
-          <h2>Snapshots
-          </h2>
-            <button class="add-snapshot-btn" title="Add a new working snapshot" @click="addsnapshot">Save</button>
-            <button class="add-snapshot-btn" title="Add a new working snapshot" @click="addsnapshot">Save new</button>
+          <h2><span id="display-snapshots-char" @click="displaySnapshots"><span v-if="display_snapshots">▼  </span><span v-else>▶  </span></span>Snapshots</h2>
+          <span class="snapshots-ctrls">
+            <button class="snapshot-ctrl-btn add-snapshot-btn" title="Add a new snapshot" @click="addSnapshot">New</button>
+            <span v-if="display_snapshots_controls">
+              <button class="snapshot-ctrl-btn load-snapshot-btn" title="Load this snapshot" @click="loadActiveSnapshot">Load</button>
+              <button class="snapshot-ctrl-btn rename-snapshot-btn" title="Rename this snapshot" @click="renameActiveSnapshot">Rename</button>
+              <button class="snapshot-ctrl-btn delete-snapshot-btn" title="Delete this snapshot" @click="deleteActiveSnapshot">Delete</button>
+            </span>
+          </span>
         </div>
-        <div class="snapshots-list">
+        <div v-show="display_snapshots" class="snapshots-list" >
           <snapshot v-for="(snapshot, index) in snapshots" :key="index" :index="index" />
         </div>
       </div>
@@ -72,6 +77,7 @@ export default {
   data: function () {
     return {
       display_settings: false,
+      display_snapshots: false,
     };
   },
   computed: {
@@ -89,10 +95,16 @@ export default {
     snapshots() {
       return this.$store.state.snapshots;
     },
+    display_snapshots_controls() {
+      return this.$store.state.display_snapshots_controls;
+    }
   },
   methods: {
-    addsnapshot() {
-      this.$store.commit("addsnapshot");
+    addSnapshot() {
+      this.$store.commit("addSnapshot");
+    },
+    displaySnapshots() {
+      this.display_snapshots = !this.display_snapshots
     },
     updateParametersNo(e) {
       this.$store.commit("updateParametersNo", e);

@@ -7,10 +7,12 @@ h2 {
   font-weight: 400;
   font-size: 1.3em;
   color: #4f4f4f;
+  display: inline-block;
+  cursor: default;
 }
 .section-container {
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 ::selection {
   background: #cee5ff;
@@ -49,29 +51,49 @@ h2 {
 #title-settings.active {
   color: #4f4f4f;
 }
-
-/* WORKING COPIES */
-.snapshots {
+/* SNAPSHOTS */
+.snapshots.section-container{
+  /* background-color: #f1f1f1; */
+  /* padding-left: 20px; */
+  /* border-radius: 4px; */
 }
-
-.add-snapshot-btn {
-  background-color: #a8e3a1; /* Green */
-  border: none;
-  color: #1d8f10;
+/* SNAPSHOTS CONTROLS */
+#display-snapshots-char {
+  cursor: pointer;
+}
+.snapshots-ctrls {
+  display: inline;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.snapshot-ctrl-btn {
   padding: 4px 12px;
-  border-radius: 8px;
+  border-radius: 4px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: inline;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   margin-left: 8px;
+  border: none;
   cursor: pointer;
 }
-.add-snapshot-btn:hover {
-  background-color: #83c77b; /* Green */
-
+.snapshot-ctrl-btn:hover {
+  background-color: #e6e6e6;
 }
+.add-snapshot-btn {
+  color: #61c27b;
+}
+.load-snapshot-btn {
+  color: #617bc2;
+}
+.rename-snapshot-btn {
+  color: #ebeb4d;
+}
+.delete-snapshot-btn {
+  color: #e87e64;
+}
+/* SNAPSHOTS LIST */
 .snapshots-list {
   display: grid;
   display: flex;
@@ -84,13 +106,12 @@ h2 {
   padding-right: 4px;
 }
 .snapshot-btn {
-  flex-basis: 15%;
   background-color: #f1f1f1;
   height: 26px;
   /* max-width: 200px; */
   /* max-width: 400px; */
 
-  border-radius: 13px;
+  border-radius: 4px;
   font-size: 14px;
   border: none;
   cursor: pointer;
@@ -98,7 +119,7 @@ h2 {
   transition: max-width 1s ease;
 }
 input.snapshot-name {
-  width: auto;
+  max-width: 100px;
 }
 .snapshot-btn-content {
   padding-left: 14px;
@@ -148,9 +169,7 @@ input.snapshot-name {
   display: flex;
   overflow: hidden;
 }
-.overview-header h2 {
-  display: inline-block;
-}
+
 #detail-title {
   display: inline-block;
   font-size: 16px;
@@ -262,6 +281,7 @@ input.snapshot-name {
 .parameters-header h2{
   display: inline-block;
   margin-right: 20px;
+  white-space: nowrap;
 }
 input[type="number"] {
   -moz-appearance: textfield;

@@ -25,6 +25,7 @@ export default createStore({
         selected: true,
       },
     ],
+    display_snapshots_controls: true
   },
   mutations: {
     updateSettings(state, payload) {
@@ -151,33 +152,33 @@ export default createStore({
     updateParametersRanges(state) {
       this.state.parameters.forEach((p) => (p.range_value = p.value));
     },
-    addsnapshot(state) {
-      /* Unselect every other snapshot */
-      this.state.snapshots.forEach((b) => {
-        b.selected = false;
-      });
-
-      this.state.snapshots.push({
-        name: "Snapshot " + this.state.snapshots.length,
-        selected: true,
-      });
+    addSnapshot(state) {
+      // /* Unselect every other snapshot */
+      // this.state.snapshots.forEach((b) => {
+      //   b.selected = false;
+      // });
+      //
+      // this.state.snapshots.push({
+      //   name: "Snapshot " + this.state.snapshots.length,
+      //   selected: true,
+      // });
     },
     selectsnapshot(state, payload) {
-      var snapshot = this.state.snapshots[payload.index];
-      /* Unselect every other snapshot */
-      this.state.snapshots.forEach((b) => {
-        b.selected = false;
-      });
-      /* Reset data */
-      this.state.settings.parameters_no = payload.state.parameters_no;
-      this.state.overview_zoom = payload.state.overview_zoom;
-      this.state.overview_index = payload.state.overview_index;
-      this.state.parameters = payload.state.parameters;
-      /* Select snapshot */
-      this.state.snapshots[payload.index].selected = true;
+      // var snapshot = this.state.snapshots[payload.index];
+      // /* Unselect every other snapshot */
+      // this.state.snapshots.forEach((b) => {
+      //   b.selected = false;
+      // });
+      // /* Reset data */
+      // this.state.settings.parameters_no = payload.state.parameters_no;
+      // this.state.overview_zoom = payload.state.overview_zoom;
+      // this.state.overview_index = payload.state.overview_index;
+      // this.state.parameters = payload.state.parameters;
+      // /* Select snapshot */
+      // this.state.snapshots[payload.index].selected = true;
     },
     deletesnapshot(state, index) {
-      this.state.snapshots.splice(index, 1);
+      // this.state.snapshots.splice(index, 1);
     },
   },
   actions: {
