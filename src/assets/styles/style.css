@@ -9,6 +9,7 @@ h2 {
   color: #4f4f4f;
   display: inline-block;
   cursor: default;
+  user-select: none;
 }
 .section-container {
   margin-left: 20px;
@@ -21,7 +22,9 @@ h2 {
 ::-moz-selection {
   background: #cee5ff;
 }
-
+.hovered {
+  opacity: 0.5;
+}
 /* HEADER */
 .header {
   display: grid;
@@ -84,7 +87,7 @@ h2 {
 .add-snapshot-btn {
   color: #61c27b;
 }
-.load-snapshot-btn {
+/* .load-snapshot-btn {
   color: #617bc2;
 }
 .rename-snapshot-btn {
@@ -92,7 +95,7 @@ h2 {
 }
 .delete-snapshot-btn {
   color: #e87e64;
-}
+} */
 /* SNAPSHOTS LIST */
 .snapshots-list {
   display: grid;

@@ -34,4 +34,7 @@ mv hilberttransposition.js src/wasm/
 mv hilberttransposition.wasm public/js/
 ```
 
-Move the wasm file to js folder
+### Issues
+
+- Sliders at wrong position on first click on snapshot, right on second
+- Click + click out

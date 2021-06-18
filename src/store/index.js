@@ -19,13 +19,10 @@ export default createStore({
     overview_zoom: 1 /* 1: no zoom, 0: maximum zoom */,
     overview_index: 0 /* From 0 to 1 */,
     parameters: [],
-    snapshots: [
-      {
-        name: "Snapshot 0",
-        selected: true,
-      },
-    ],
-    display_snapshots_controls: true
+    snapshots: [],
+    snapshot_state_buffer: null,
+    is_snapshot_loaded: false,
+    display_snapshots: false,
   },
   mutations: {
     updateSettings(state, payload) {
@@ -152,32 +149,82 @@ export default createStore({
     updateParametersRanges(state) {
       this.state.parameters.forEach((p) => (p.range_value = p.value));
     },
+    displaySnapshots(state) {
+      this.state.display_snapshots = !this.state.display_snapshots;
+    },
     addSnapshot(state) {
-      // /* Unselect every other snapshot */
-      // this.state.snapshots.forEach((b) => {
-      //   b.selected = false;
-      // });
-      //
-      // this.state.snapshots.push({
-      //   name: "Snapshot " + this.state.snapshots.length,
-      //   selected: true,
-      // });
+      this.state.snapshots.push({
+        name: "Snapshot " + this.state.snapshots.length,
+        selected: false,
+        saved_state: {
+          parameters_no: this.state.settings.parameters_no,
+          overview_zoom: this.state.overview_zoom,
+          overview_index: this.state.overview_index,
+          parameters: JSON.parse(JSON.stringify(this.state.parameters)),
+        },
+      });
+      this.state.display_snapshots = true;
     },
-    selectsnapshot(state, payload) {
-      // var snapshot = this.state.snapshots[payload.index];
-      // /* Unselect every other snapshot */
-      // this.state.snapshots.forEach((b) => {
-      //   b.selected = false;
-      // });
-      // /* Reset data */
-      // this.state.settings.parameters_no = payload.state.parameters_no;
-      // this.state.overview_zoom = payload.state.overview_zoom;
-      // this.state.overview_index = payload.state.overview_index;
-      // this.state.parameters = payload.state.parameters;
-      // /* Select snapshot */
-      // this.state.snapshots[payload.index].selected = true;
+    selectSnapshot(state, index) {
+      console.log("selectsnapshot");
+      var snapshot = this.state.snapshots[index];
+      /* Unselect every other snapshot */
+      this.state.snapshots.forEach((b) => {
+        b.selected = false;
+      });
+      /* Save previous state in buffer */
+      this.state.snapshot_state_buffer = JSON.parse(
+        JSON.stringify({
+          parameters_no: this.state.settings.parameters_no,
+          overview_zoom: this.state.overview_zoom,
+          overview_index: this.state.overview_index,
+          parameters: this.state.parameters,
+        })
+      );
+      /* Reset data */
+      this.state.settings.parameters_no = snapshot.saved_state.parameters_no;
+      this.state.overview_zoom = snapshot.saved_state.overview_zoom;
+      this.state.overview_index = snapshot.saved_state.overview_index;
+      this.state.parameters = JSON.parse(
+        JSON.stringify(snapshot.saved_state.parameters)
+      );
+      /* Select snapshot if not already load*/
+      // if (!this.is_snapshot_loaded) {
+      this.state.snapshots[index].selected = true;
+      // }
     },
-    deletesnapshot(state, index) {
+    unselectSnapshot(state, index) {
+      this.state.snapshots[index].selected = false;
+      if (this.state.snapshot_state_buffer) {
+        /*Revert state */
+        this.state.settings.parameters_no = this.state.snapshot_state_buffer.parameters_no;
+        this.state.overview_zoom = this.state.snapshot_state_buffer.overview_zoom;
+        this.state.overview_index = this.state.snapshot_state_buffer.overview_index;
+        this.state.parameters = JSON.parse(
+          JSON.stringify(this.state.snapshot_state_buffer.parameters)
+        );
+        this.state.snapshot_state_buffer = null;
+      }
+    },
+    loadSnapshot(state, index) {
+      var snapshot = this.state.snapshots[index];
+      this.state.settings.parameters_no = snapshot.saved_state.parameters_no;
+      this.state.overview_zoom = snapshot.saved_state.overview_zoom;
+      this.state.overview_index = snapshot.saved_state.overview_index;
+      this.state.parameters = JSON.parse(
+        JSON.stringify(snapshot.saved_state.parameters)
+      );
+      /* Update buffer */
+      this.state.snapshot_state_buffer = JSON.parse(
+        JSON.stringify({
+          parameters_no: this.state.settings.parameters_no,
+          overview_zoom: this.state.overview_zoom,
+          overview_index: this.state.overview_index,
+          parameters: this.state.parameters,
+        })
+      );
+    },
+    deleteSnapshot(state, index) {
       // this.state.snapshots.splice(index, 1);
     },
   },

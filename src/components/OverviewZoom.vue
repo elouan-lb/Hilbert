@@ -1,6 +1,6 @@
 <template>
   <div class="overview-zoom">
-    <h3 id="detail-title">Detail </h3>
+    <h3 id="detail-title">Detail</h3>
     <span>-</span>
     <input
       :value="overview_zoom_html"
