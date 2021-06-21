@@ -1,14 +1,14 @@
 <template>
   <div class="settings section-container">
-    <h2>Host destination</h2>
-    <input
+    <br><h2>Host destination</h2>
+    <br><input
       type="text"
       id="settings-host"
       name="settings-host"
       v-model="settings_buffer.host"
     />
-    <h2>Port</h2>
-    <input
+    <br><h2>Port</h2>
+    <br><input
       type="number"
       id="settings-port"
       name="settings-port"

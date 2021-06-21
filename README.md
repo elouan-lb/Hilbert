@@ -26,6 +26,10 @@ npm run build
 
 https://emscripten.org/docs/getting_started/downloads.html
 
+MAC OS users can use Homebrew to install emscripten
+
+`brew install emscripten`
+
 ##### Compile C code to WASM with Emscripten
 
 ```bash
