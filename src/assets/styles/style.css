@@ -121,6 +121,10 @@ h2 {
   text-align: left;
   transition: max-width 1s ease;
 }
+.snapshot-btn-ctrls {
+  display: inline-block;
+  width: 38px;
+}
 input.snapshot-name {
   max-width: 100px;
 }
@@ -140,6 +144,8 @@ input.snapshot-name {
   margin: 0;
   padding-top: 4px;
   /* width: 120px; */
+}
+.disabled {
   pointer-events: none;
 }
 .snapshot-btn.selected {

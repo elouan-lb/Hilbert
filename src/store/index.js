@@ -154,7 +154,7 @@ export default createStore({
     },
     addSnapshot(state) {
       this.state.snapshots.push({
-        name: "Snapshot " + this.state.snapshots.length,
+        name: "Snapshot",
         selected: false,
         saved_state: {
           parameters_no: this.state.settings.parameters_no,
@@ -224,8 +224,11 @@ export default createStore({
         })
       );
     },
+    renameSnapshot(state, payload) {
+      this.state.snapshots[payload.index].name = payload.name;
+    },
     deleteSnapshot(state, index) {
-      // this.state.snapshots.splice(index, 1);
+      this.state.snapshots.splice(index, 1);
     },
   },
   actions: {
