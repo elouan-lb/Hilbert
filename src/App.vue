@@ -1,4 +1,5 @@
-Snapshots<template>
+Snapshots
+<template>
   <div class="main-container">
     <div class="header section-container">
       <h1 id="title-main">Hilbert-standalone</h1>
@@ -13,33 +14,55 @@ Snapshots<template>
     <div v-show="!display_settings">
       <div class="snapshots section-container">
         <div class="snapshots-header">
-          <h2><span id="display-snapshots-char" @click="displaySnapshots"><span v-if="display_snapshots">▾  </span><span v-else>▸  </span></span>Snapshots</h2>
+          <h2>
+            <span id="display-snapshots-char" @click="displaySnapshots"
+              ><span v-if="display_snapshots">▾ </span
+              ><span v-else>▸ </span></span
+            >Snapshots
+          </h2>
           <span class="snapshots-ctrls">
-            <button class="snapshot-ctrl-btn add-snapshot-btn" title="Add a new snapshot" @click="addSnapshot">+</button>
+            <button
+              class="snapshot-ctrl-btn add-snapshot-btn"
+              title="Add a new snapshot"
+              @click="addSnapshot"
+            >
+              +
+            </button>
           </span>
         </div>
-        <div v-show="display_snapshots" class="snapshots-list" >
-          <snapshot v-for="(snapshot, index) in snapshots" :key="index" :index="index" />
+        <div v-show="display_snapshots" class="snapshots-list">
+          <snapshot
+            v-for="(snapshot, index) in snapshots"
+            :key="index"
+            :index="index"
+          />
         </div>
       </div>
       <div class="overview section-container">
         <div class="overview-header">
           <h2>Overview</h2>
         </div>
-        <OverviewIndex :class="{hovered: isSnapshotHovered}"/>
+        <OverviewIndex :class="{ hovered: isSnapshotHovered }" />
       </div>
       <div class="parameters section-container">
         <div class="parameters-header">
           <h2>Parameters</h2>
-          <IncrementButton class="parameters-no-btn" :class="{hovered: isSnapshotHovered}" @input="updateParametersNo" :value="parameters_no" :min="0" :max="21"/>
-          <OverviewZoom :class="{hovered: isSnapshotHovered}"/>
+          <IncrementButton
+            class="parameters-no-btn"
+            :class="{ hovered: isSnapshotHovered }"
+            @input="updateParametersNo"
+            :value="parameters_no"
+            :min="0"
+            :max="21"
+          />
+          <OverviewZoom :class="{ hovered: isSnapshotHovered }" />
         </div>
         <div class="parameter-section-list">
           <Parameter
             v-for="(p, index) in parameters"
             :key="p.index"
             :index="index"
-            :class="{hovered: isSnapshotHovered}"
+            :class="{ hovered: isSnapshotHovered }"
           />
         </div>
         <!-- <Canvas /> -->
@@ -95,13 +118,18 @@ export default {
     },
     isSnapshotHovered() {
       /* Check if current state values are similar to the snapshoted ones */
-      console.log("test")
-      var selected_snapshot = this.$store.state.snapshots.find(b => b.selected ==true);
+      console.log("test");
+      var selected_snapshot = this.$store.state.snapshots.find(
+        (b) => b.selected == true
+      );
       var snapshot_state_buffer = this.$store.state.snapshot_state_buffer;
       if (selected_snapshot) {
-        return !(JSON.stringify(selected_snapshot.saved_state) === JSON.stringify(snapshot_state_buffer))
+        return !(
+          JSON.stringify(selected_snapshot.saved_state) ===
+          JSON.stringify(snapshot_state_buffer)
+        );
       }
-    }
+    },
   },
   methods: {
     addSnapshot() {
@@ -112,8 +140,11 @@ export default {
     },
     updateParametersNo(e) {
       this.$store.commit("updateParametersNo", e);
-    }
-  }
+    },
+  },
+  beforeCreate() {
+    this.$store.commit("initialiseStore");
+  },
 };
 </script>
 

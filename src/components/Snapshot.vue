@@ -13,26 +13,26 @@
         ref="snapshotname"
         class="snapshot-name"
         :value="name"
-        :class="{disabled:!renaming}"
+        :class="{ disabled: !renaming }"
         @input="editName"
       />
-    <span class="snapshot-btn-ctrls" >
-      <img
-        class="snapshot-load-icon"
-        v-show="hovered"
-        src="../assets/imgs/rename.png"
-        title="Rename this snapshot"
-        @click="renameSnapshot"
-      />
-      <img
-        class="snapshot-trash-icon"
-        v-show="hovered"
-        src="../assets/imgs/delete.png"
-        title="Delete this snapshot"
-        @click="deleteSnapshot"
-      />
-    </span>
-  </div>
+      <span class="snapshot-btn-ctrls">
+        <img
+          class="snapshot-load-icon"
+          v-show="hovered"
+          src="../assets/imgs/rename.png"
+          title="Rename this snapshot"
+          @click="renameSnapshot"
+        />
+        <img
+          class="snapshot-trash-icon"
+          v-show="hovered"
+          src="../assets/imgs/delete.png"
+          title="Delete this snapshot"
+          @click="deleteSnapshot"
+        />
+      </span>
+    </div>
   </button>
 </template>
 
@@ -68,15 +68,18 @@ export default {
     },
     renameSnapshot() {
       this.renaming = true;
-      this.$refs.snapshotname.select()
+      this.$refs.snapshotname.select();
     },
     deleteSnapshot() {
       this.$store.commit("unselectSnapshot", this.index);
       this.$store.commit("deleteSnapshot", this.index);
     },
     editName(e) {
-      this.$store.commit("renameSnapshot", {index: this.index, name: e.target.value});
-    }
+      this.$store.commit("renameSnapshot", {
+        index: this.index,
+        name: e.target.value,
+      });
+    },
   },
   computed: {
     name() {

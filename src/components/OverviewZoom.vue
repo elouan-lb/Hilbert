@@ -41,5 +41,6 @@ export default {
       return 1 - this.overview_zoom;
     },
   },
+  mounted() {},
 };
 </script>

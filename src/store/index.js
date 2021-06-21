@@ -25,6 +25,15 @@ export default createStore({
     display_snapshots: false,
   },
   mutations: {
+    initialiseStore(state) {
+      // Check if the ID exists
+      if (localStorage.getItem("store")) {
+        // Replace the state object with the stored item
+        this.replaceState(
+          Object.assign(state, JSON.parse(localStorage.getItem("store")))
+        );
+      }
+    },
     updateSettings(state, payload) {
       /* Update settings */
       state.settings = payload;
@@ -197,9 +206,12 @@ export default createStore({
       this.state.snapshots[index].selected = false;
       if (this.state.snapshot_state_buffer) {
         /*Revert state */
-        this.state.settings.parameters_no = this.state.snapshot_state_buffer.parameters_no;
-        this.state.overview_zoom = this.state.snapshot_state_buffer.overview_zoom;
-        this.state.overview_index = this.state.snapshot_state_buffer.overview_index;
+        this.state.settings.parameters_no =
+          this.state.snapshot_state_buffer.parameters_no;
+        this.state.overview_zoom =
+          this.state.snapshot_state_buffer.overview_zoom;
+        this.state.overview_index =
+          this.state.snapshot_state_buffer.overview_index;
         this.state.parameters = JSON.parse(
           JSON.stringify(this.state.snapshot_state_buffer.parameters)
         );
