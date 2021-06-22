@@ -4,7 +4,8 @@
   "description": "A web application mapping a single index to an N-dimensional parameter space, easing parameter space explorations.",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "servefrontend": "vue-cli-service serve --port 3000",
+    "servebackend": "node src/osc/osc-server",
     "build": "vue-cli-service build",
     "deploy": "sh deploy.sh"
   },
@@ -25,6 +26,7 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
     "lint-staged": "^9.5.0",
+    "osc-js": "^2.1.2",
     "prettier": "2.3.1"
   },
   "gitHooks": {

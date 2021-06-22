@@ -1,4 +1,3 @@
-Snapshots
 <template>
   <div class="main-container">
     <div class="header section-container">
@@ -143,7 +142,7 @@ export default {
   },
   beforeCreate() {
     this.$store.commit("initialiseStore");
-  },
+  }
 };
 </script>
 

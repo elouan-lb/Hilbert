@@ -1,6 +1,13 @@
 import { createStore } from "vuex";
 import moduleWasm from "../wasm/hilberttransposition.js";
 
+/* OSC Connection */
+const OSC = require('osc-js')
+
+var osc = new OSC();
+
+osc.open();
+
 const map_values = function (value, in_min, in_max, out_min, out_max) {
   return ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 };
@@ -79,7 +86,10 @@ export default createStore({
           param.zoomed_min,
           param.zoomed_max
         );
+        var osc_value = new OSC.Message(param.name, param.value);
+        osc.send(osc_value);
       });
+      /* Send OSC */
     },
     computeHilbertIndex() {
       /* Compute Hilbert index according to coordinates values */
