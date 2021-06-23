@@ -6,6 +6,7 @@
       @input="updateOverviewIndex"
       id="overview-index-slider"
       name="overview-index-slider"
+      ref="indexref"
       min="0"
       max="1"
       step="any"
@@ -78,6 +79,9 @@ export default {
   },
   async created() {
     instance = await moduleWasm();
+  },
+  mounted() {
+    this.$refs.indexref.value = this.overview_index;
   },
 };
 </script>

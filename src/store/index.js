@@ -175,7 +175,6 @@ export default createStore({
       this.state.display_snapshots = true;
     },
     selectSnapshot(state, index) {
-      console.log("selectsnapshot");
       var snapshot = this.state.snapshots[index];
       /* Unselect every other snapshot */
       this.state.snapshots.forEach((b) => {

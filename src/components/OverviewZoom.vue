@@ -8,6 +8,7 @@
       type="range"
       id="overview-zoom-slider"
       name="overview-zoom-slider"
+      ref="zoomref"
       min="0"
       max="1"
       step="any"
@@ -41,6 +42,8 @@ export default {
       return 1 - this.overview_zoom;
     },
   },
-  mounted() {},
+  mounted() {
+    this.$refs.zoomref.value = this.overview_zoom_html;
+  },
 };
 </script>

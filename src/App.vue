@@ -118,7 +118,6 @@ export default {
     },
     isSnapshotHovered() {
       /* Check if current state values are similar to the snapshoted ones */
-      console.log("test");
       var selected_snapshot = this.$store.state.snapshots.find(
         (b) => b.selected == true
       );

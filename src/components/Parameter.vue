@@ -12,6 +12,7 @@
           @input="updateValue"
           type="range"
           id="parameter-range"
+          ref="rangeref"
           name="parameter-range"
           :min="min"
           :max="max"
@@ -23,6 +24,7 @@
           @input="updateValue"
           type="range"
           id="parameter-value"
+          ref="valueref"
           name="parameter-value"
           :min="min"
           :max="max"
@@ -131,6 +133,11 @@ export default {
   },
   async created() {
     this.$store.dispatch("loadHilbertModule");
+  },
+  mounted() {
+    /* Workaround to initialise DOM values */
+    this.$refs.valueref.value = this.value;
+    this.$refs.rangeref.value = this.range_value;
   },
 };
 </script>
