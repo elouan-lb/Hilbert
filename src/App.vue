@@ -2,12 +2,12 @@
   <div class="main-container">
     <div class="header section-container">
       <h1 id="title-main">Hilbert-standalone</h1>
-      <a
+      <!-- <a
         id="title-settings"
         href="#"
         @click="display_settings = !display_settings"
         >{{ nav }}</a
-      >
+      > -->
     </div>
     <Settings v-show="display_settings" />
     <div v-show="!display_settings">
@@ -39,7 +39,7 @@
       </div>
       <div class="overview section-container">
         <div class="overview-header">
-          <h2>Overview</h2>
+          <h2>Macro-slider</h2>
         </div>
         <OverviewIndex :class="{ hovered: isSnapshotHovered }" />
       </div>

@@ -41,6 +41,12 @@ export default createStore({
         );
       }
     },
+    sendParametersValueWithOSC(state) {
+      this.state.parameters.forEach(param => {
+        var osc_value = new OSC.Message(param.name, param.value);
+        osc.send(osc_value);
+      });
+    },
     updateSettings(state, payload) {
       /* Update settings */
       state.settings = payload;
@@ -158,7 +164,11 @@ export default createStore({
       this.state.parameters[payload.index].name = payload.name;
     },
     updateParameterValue(state, payload) {
-      this.state.parameters[payload.index].value = parseFloat(payload.value);
+      var param = this.state.parameters[payload.index];
+      param.value = parseFloat(payload.value);
+
+      var osc_value = new OSC.Message(param.name, param.value);
+      osc.send(osc_value);
     },
     updateParameterRangeValue(state, payload) {
       this.state.parameters[payload.index].range_value = parseFloat(
@@ -206,10 +216,11 @@ export default createStore({
       this.state.parameters = JSON.parse(
         JSON.stringify(snapshot.saved_state.parameters)
       );
-      /* Select snapshot if not already load*/
-      // if (!this.is_snapshot_loaded) {
+
       this.state.snapshots[index].selected = true;
-      // }
+
+      /* Send OSC values */
+      this.commit("sendParametersValueWithOSC");
     },
     unselectSnapshot(state, index) {
       this.state.snapshots[index].selected = false;
@@ -225,6 +236,9 @@ export default createStore({
           JSON.stringify(this.state.snapshot_state_buffer.parameters)
         );
         this.state.snapshot_state_buffer = null;
+
+        /* Send OSC values */
+        this.commit("sendParametersValueWithOSC");
       }
     },
     loadSnapshot(state, index) {

@@ -274,7 +274,7 @@ input.snapshot-name {
 
 .parameters-section {
   display: grid;
-  grid-template-columns: 3fr 1fr 0.2fr 0.2fr;
+  grid-template-columns: 0.2fr 1fr 3fr  0.2fr ;
   margin-top: 20px;
 }
 .parameters-slider-container {
