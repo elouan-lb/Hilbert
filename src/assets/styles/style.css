@@ -136,8 +136,6 @@ input.snapshot-name {
   /* width: auto; */
   overflow: hidden;
   color: #4f4f4f;
-  /* opacity: 0%; */
-  /* transition: opacity .8s ease; */
 }
 .snapshot-name {
   background: transparent;
@@ -151,9 +149,6 @@ input.snapshot-name {
 .snapshot-btn.selected {
   /* max-width: 400px; */
   box-shadow: 0 0 4px 2px #cee5ff;
-}
-.selected .snapshot-btn-content {
-  opacity: 100%;
 }
 .snapshot-btn img {
   height: 19px;
