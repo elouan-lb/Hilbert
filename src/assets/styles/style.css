@@ -362,12 +362,12 @@ input {
   mix-blend-mode: multiply;
   position: relative;
   top: 8px;
-  z-index: 21;
 }
 #parameter-value {
   background: transparent;
   position: relative;
   top: -10px;
+  z-index: 21;
 }
 #parameter-range::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
@@ -473,5 +473,5 @@ b {
 }
 .about p{
   width: 50%;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
