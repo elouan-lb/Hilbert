@@ -35,6 +35,7 @@ export default {
       this.computeHilbertCoordinates();
     },
     computeHilbertCoordinates() {
+      if (instance) {
       /* Map the overview index to the size of the Hilbert curve */
       var max_index = 2 ** (this.granularity * this.active_parameters.length); // Maximum index on the curve
       var max_coordinate = 2 ** this.granularity - 1;
@@ -61,7 +62,8 @@ export default {
       /* Scale coordinates between 0 and 1 */
       var scaled_coordinates = coordinates.map((x) => x / max_coordinate);
       this.$store.commit("updateParametersValues", scaled_coordinates);
-    },
+    }
+  }
   },
   computed: {
     overview_index() {

@@ -98,37 +98,39 @@ export default createStore({
       /* Send OSC */
     },
     computeHilbertIndex() {
-      /* Compute Hilbert index according to coordinates values */
-      var active_parameters = this.state.parameters.filter((p) => p.active);
+      if (instance) {
+        /* Compute Hilbert index according to coordinates values */
+        var active_parameters = this.state.parameters.filter((p) => p.active);
 
-      /* Scale values to maximum coordinates range */
-      var coordinates = [];
-      var max_coordinate = 2 ** this.state.settings.granularity - 1;
-      var max_index =
-        2 ** (this.state.settings.granularity * active_parameters.length) - 1;
+        /* Scale values to maximum coordinates range */
+        var coordinates = [];
+        var max_coordinate = 2 ** this.state.settings.granularity - 1;
+        var max_index =
+          2 ** (this.state.settings.granularity * active_parameters.length) - 1;
 
-      active_parameters.forEach((p) => {
-        coordinates.push(
-          Math.floor(map_values(p.value, p.min, p.max, 0, max_coordinate))
+        active_parameters.forEach((p) => {
+          coordinates.push(
+            Math.floor(map_values(p.value, p.min, p.max, 0, max_coordinate))
+          );
+        });
+        var distance_from_coordinates = instance.cwrap(
+          "distance_from_coordinates",
+          "number",
+          ["array", "number", "number"]
         );
-      });
-      var distance_from_coordinates = instance.cwrap(
-        "distance_from_coordinates",
-        "number",
-        ["array", "number", "number"]
-      );
-      var overview_index = distance_from_coordinates(
-        coordinates,
-        this.state.settings.granularity,
-        active_parameters.length
-      );
-      this.state.overview_index = Number(overview_index) / max_index;
+        var overview_index = distance_from_coordinates(
+          coordinates,
+          this.state.settings.granularity,
+          active_parameters.length
+        );
+        this.state.overview_index = Number(overview_index) / max_index;
 
-      // console.log("n: " + active_parameters.length)
-      // console.log("p: " + this.state.settings.granularity)
-      // console.log("Coordinates: " + coordinates)
-      // console.log("Index: " + overview_index)
-      // console.log("Index scaled: " + Number(overview_index) / max_index)
+        // console.log("n: " + active_parameters.length)
+        // console.log("p: " + this.state.settings.granularity)
+        // console.log("Coordinates: " + coordinates)
+        // console.log("Index: " + overview_index)
+        // console.log("Index scaled: " + Number(overview_index) / max_index)
+      }
     },
     computeParametersZoomedIntervals(state) {
       /* Update zoomed parameters range */
@@ -146,6 +148,7 @@ export default createStore({
     },
     updateOverviewIndex(state, index) {
       this.state.overview_index = index;
+      localStorage.setItem("index", index);
     },
     updateOverviewZoom(state, zoom) {
       this.state.overview_zoom = zoom;
