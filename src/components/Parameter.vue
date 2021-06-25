@@ -4,8 +4,8 @@
     :class="{ active: active, inactive: !active }"
   >
   <div class="activate-parameter" @click="freezeParameter">
-    <img v-if="active" src="../assets/imgs/opened_eye.png" title="Freeze" />
-    <img v-else src="../assets/imgs/closed_eye.png" title="Unfreeze" />
+    <img v-if="active" src="../assets/imgs/opened_lock.png" title="Lock" />
+    <img v-else src="../assets/imgs/closed_lock.png" title="Unlock" />
   </div>
 
   <input

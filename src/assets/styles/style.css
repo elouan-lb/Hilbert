@@ -126,14 +126,13 @@ h2 {
   width: 38px;
 }
 input.snapshot-name {
-  max-width: 100px;
+  max-width: 80px;
 }
 .snapshot-btn-content {
   padding-left: 14px;
   padding-right: 8px;
   margin-bottom: 8px;
   height: 26px;
-  /* width: auto; */
   overflow: hidden;
   color: #4f4f4f;
 }
@@ -177,7 +176,7 @@ input.snapshot-name {
 #detail-title {
   display: inline-block;
   font-size: 16px;
-  font-weight: lighter;
+  font-weight: normal;
   color: #4f4f4f;
   background-color: #f1f1f1;
   margin: 0;
