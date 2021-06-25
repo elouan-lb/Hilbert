@@ -466,4 +466,12 @@ canvas {
   color: #8fc0fa;
 }
 
-/* TRANSITIONS */
+/* ABOUT */
+b {
+  text-decoration: underline #cee5ff;
+  text-decoration-thickness: 0.25em;
+}
+.about p{
+  width: 50%;
+  margin-bottom: 20px; 
+}
