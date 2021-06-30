@@ -2,12 +2,15 @@
   <div class="main-container">
     <div class="header section-container">
       <h1 id="title-main">Hilbert-standalone</h1>
-      <!-- <a
+      <span class="menu-actions">
+        <a @click="startRecording" v-if="!is_recording" class="record">Record actions</a>
+        <a @click="stopRecording" v-if="is_recording" class="recording">Stop recording</a>
+      <a
         id="title-settings"
-        href="#"
         @click="display_settings = !display_settings"
         >{{ nav }}</a
-      > -->
+      >
+      </span>
     </div>
     <Settings v-show="display_settings" />
     <div v-show="!display_settings">
@@ -41,27 +44,27 @@
         <div class="overview-header">
           <h2>Macro-slider</h2>
         </div>
-        <OverviewIndex :class="{ hovered: isSnapshotHovered }" />
+        <OverviewIndex :class="{ hovered: is_snapshot_hovered }" />
       </div>
       <div class="parameters section-container">
         <div class="parameters-header">
           <h2>Parameters</h2>
           <IncrementButton
             class="parameters-no-btn"
-            :class="{ hovered: isSnapshotHovered }"
+            :class="{ hovered: is_snapshot_hovered }"
             @input="updateParametersNo"
             :value="parameters_no"
             :min="0"
             :max="21"
           />
-          <OverviewZoom :class="{ hovered: isSnapshotHovered }" />
+          <OverviewZoom :class="{ hovered: is_snapshot_hovered }" />
         </div>
         <div class="parameter-section-list">
           <Parameter
             v-for="(p, index) in parameters"
             :key="p.index"
             :index="index"
-            :class="{ hovered: isSnapshotHovered }"
+            :class="{ hovered: is_snapshot_hovered }"
           />
         </div>
         <!-- <Canvas /> -->
@@ -115,7 +118,7 @@ export default {
     display_snapshots() {
       return this.$store.state.display_snapshots;
     },
-    isSnapshotHovered() {
+    is_snapshot_hovered() {
       /* Check if current state values are similar to the snapshoted ones */
       var selected_snapshot = this.$store.state.snapshots.find(
         (b) => b.selected == true
@@ -128,6 +131,12 @@ export default {
         );
       }
     },
+    is_recording() {
+      return this.$store.state.is_recording;
+    },
+    recorded_actions() {
+      return this.$store.state.recorded_actions;
+    },
   },
   methods: {
     addSnapshot() {
@@ -139,10 +148,33 @@ export default {
     updateParametersNo(e) {
       this.$store.commit("updateParametersNo", e);
     },
+    startRecording() {
+      this.$store.commit("startRecording");
+    },
+    stopRecording() {
+      /* Download CSV */
+      let csv = "Time,Action,New Value,Old Value,Name, Min,Max,Computed\n";
+      this.recorded_actions.forEach((value) => {
+        for (const key in value) {
+          csv += JSON.stringify(value[key]);
+          csv += ",";
+        }
+        csv += "\n";
+      });
+
+      const anchor = document.createElement("a");
+      anchor.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+      anchor.target = "_blank";
+      anchor.download = "hilbertRecordedActions.csv";
+      anchor.click();
+      /* Stop recording */
+      this.$store.commit("stopRecording");
+      // this.is_recording = false;
+    },
   },
   beforeCreate() {
     this.$store.commit("initialiseStore");
-  }
+  },
 };
 </script>
 
