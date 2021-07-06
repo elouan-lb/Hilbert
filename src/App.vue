@@ -156,7 +156,7 @@ export default {
     },
     stopRecording() {
       /* Download CSV */
-      let csv = "Time,Action,New Value,Old Value,Name, Min,Max,Computed\n";
+      let csv = "Timestamp,Action,New Value,Old Value,Name, Min,Max,Computed\n";
       this.recorded_actions.forEach((value) => {
         for (const key in value) {
           csv += JSON.stringify(value[key]);

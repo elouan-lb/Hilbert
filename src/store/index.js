@@ -34,7 +34,6 @@ export default createStore({
     display_snapshots: false,
     is_recording: false,
     recording_timer: null,
-    recording_timer_value: 0,
     recorded_actions: [],
   },
   mutations: {
@@ -74,7 +73,7 @@ export default createStore({
         /* Log mutation */
         if (this.state.is_recording) {
           this.state.recorded_actions.push({
-            time: this.state.recording_timer_value,
+            time: Date.now(),
             action: "addParameter",
             newValue: "",
             oldValue: "",
@@ -85,7 +84,7 @@ export default createStore({
         /* Log mutation */
         if (this.state.is_recording) {
           this.state.recorded_actions.push({
-            time: this.state.recording_timer_value,
+            time: Date.now(),
             action: "removeParameter",
             newValue: "",
             oldValue: "",
@@ -102,7 +101,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "removeParameter",
           newValue: "",
           oldValue: "",
@@ -134,7 +133,7 @@ export default createStore({
         /* Log mutation */
         if (this.state.is_recording) {
           this.state.recorded_actions.push({
-            time: this.state.recording_timer_value,
+            time: Date.now(),
             action: "updateParameterValue",
             newValue: param.value,
             oldValue: oldValue,
@@ -202,7 +201,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "updateOverviewIndex",
           newValue: index,
           oldValue: this.state.overview_index,
@@ -215,7 +214,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "updateOverviewZoom",
           newValue: zoom,
           oldValue: this.state.overview_zoom,
@@ -230,7 +229,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: (payload.active) ? "unlockParameter" : "lockParameter",
           newValue: "",
           oldValue: "",
@@ -242,7 +241,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "updateParameterMin",
           newValue: payload.min,
           oldValue: this.state.parameters[payload.index].min,
@@ -256,7 +255,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "updateParameterMax",
           newValue: payload.max,
           oldValue: this.state.parameters[payload.index].max,
@@ -270,7 +269,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "renameParameter",
           newValue: payload.name,
           oldValue: this.state.parameters[payload.index].name,
@@ -285,7 +284,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "updateParameterValue",
           newValue: payload.value,
           oldValue: param.value,
@@ -330,7 +329,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "addSnapshot",
           newValue: "",
           oldValue: "",
@@ -404,7 +403,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "renameSnapshot",
           newValue: payload.name,
           oldValue: this.state.snapshots[payload.index].name,
@@ -417,7 +416,7 @@ export default createStore({
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
-          time: this.state.recording_timer_value,
+          time: Date.now(),
           action: "deleteSnapshot",
           newValue: "",
           oldValue: "",
@@ -430,18 +429,10 @@ export default createStore({
     startRecording(state) {
       this.state.is_recording = true
 
-      /* Start timer */
-      this.state.recording_timer = setInterval(function() {
-        this.state.recording_timer_value++;
-      }.bind(this), 1000);
     },
     stopRecording(state) {
       this.state.is_recording = false
       this.state.recorded_actions = [];
-
-      /* Stop timer */
-      clearInterval(this.state.recording_timer);
-      this.state.recording_timer_value = 0;
     }
   },
   actions: {
