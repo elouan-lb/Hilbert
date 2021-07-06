@@ -4,14 +4,17 @@
   "description": "A web application mapping a single index to an N-dimensional parameter space, easing parameter space explorations.",
   "private": true,
   "scripts": {
-    "servefrontend": "vue-cli-service serve --port 3000",
-    "servebackend": "node src/osc/osc-server",
+    "servefrontenddev": "vue-cli-service serve --port 3000",
+    "servebackenddev": "node src/osc/osc-server-dev",
     "build": "vue-cli-service build",
-    "deploy": "sh deploy.sh"
+    "deploygithubpages": "sh deploygithubpages.sh",
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "click-outside-vue3": "^4.0.1",
     "core-js": "^3.6.5",
+    "heroku": "^7.54.1",
     "vue": "^3.0.0",
     "vuex": "^4.0.0-0"
   },
@@ -25,9 +28,11 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
+    "express": "^4.17.1",
     "lint-staged": "^9.5.0",
     "osc-js": "^2.1.2",
-    "prettier": "2.3.1"
+    "prettier": "2.3.1",
+    "serve-static": "^1.14.1"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

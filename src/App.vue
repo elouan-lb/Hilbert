@@ -5,15 +5,16 @@
       <span class="menu-actions">
         <a @click="startRecording" v-if="!is_recording" class="record">Record actions</a>
         <a @click="stopRecording" v-if="is_recording" class="recording">Stop recording</a>
-      <a
-        id="title-settings"
-        @click="display_settings = !display_settings"
-        >{{ nav }}</a
-      >
+        <a
+          id="title-settings"
+          href="#"
+          @click="display_about = !display_about"
+          >{{ nav }}</a
+        >
       </span>
     </div>
-    <Settings v-show="display_settings" />
-    <div v-show="!display_settings">
+    <About v-show="display_about" />
+    <div v-show="!display_about">
       <div class="snapshots section-container">
         <div class="snapshots-header">
           <h2>
@@ -74,6 +75,7 @@
 </template>
 
 <script>
+import About from "./components/About.vue";
 import Snapshot from "./components/Snapshot.vue";
 import Canvas from "./components/Canvas.vue";
 import IncrementButton from "./components/IncrementButton.vue";
@@ -86,6 +88,7 @@ import store from "./store/index.js";
 export default {
   name: "App",
   components: {
+    About,
     Snapshot,
     Canvas,
     IncrementButton,
@@ -97,14 +100,14 @@ export default {
   store,
   data: function () {
     return {
-      display_settings: false,
+      display_about: false,
     };
   },
   computed: {
     nav() {
-      if (this.display_settings) {
+      if (this.display_about) {
         return "App";
-      } else return "Settings";
+      } else return "About";
     },
     parameters() {
       return this.$store.state.parameters;
