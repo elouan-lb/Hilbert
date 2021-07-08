@@ -34,7 +34,7 @@ export default {
       if (this.overview_zoom)
         value =
           this.overview_index +
-          (value - this.overview_index) / Math.exp(this.overview_zoom / 10);
+          (value - this.overview_index) / Math.exp(this.overview_zoom * 40);
       this.$refs.indexref.value = value;
       this.$store.commit("updateOverviewIndex", parseFloat(value));
       this.computeHilbertCoordinates();

@@ -245,7 +245,10 @@ export default {
       if (this.index_mousedown_clientY) {
         this.$store.commit(
           "updateOverviewZoom",
-          Math.max(0, e.clientY - this.index_mousedown_clientY)
+          Math.max(
+            0,
+            (e.clientY - this.index_mousedown_clientY) / window.innerHeight
+          )
         );
       }
     },
