@@ -2,8 +2,9 @@
   <div class="overview-index">
     <input
       type="range"
-      :value="overview_index"
       @input="updateOverviewIndex"
+      @mousedown="initialiseZoom"
+      @mouseup="stopZoom"
       id="overview-index-slider"
       name="overview-index-slider"
       ref="indexref"
@@ -24,50 +25,63 @@ export default {
   name: "OverviewIndex",
   store,
   data: function () {
-    return {
-      test: 0,
-      distance_from_coordinates: null,
-    };
+    return {};
   },
   methods: {
     updateOverviewIndex(e) {
-      this.$store.commit("updateOverviewIndex", parseFloat(e.target.value));
+      var value = e.target.value;
+      /* Apply zoom */
+      if (this.overview_zoom)
+        value =
+          this.overview_index +
+          (value - this.overview_index) / Math.exp(this.overview_zoom / 10);
+      this.$refs.indexref.value = value;
+      this.$store.commit("updateOverviewIndex", parseFloat(value));
       this.computeHilbertCoordinates();
+    },
+    initialiseZoom(e) {
+      this.$emit("index_mousedown", e.clientY);
+    },
+    stopZoom(e) {
+      this.$emit("index_mouseup");
     },
     computeHilbertCoordinates() {
       if (instance) {
-      /* Map the overview index to the size of the Hilbert curve */
-      var max_index = 2 ** (this.granularity * this.active_parameters.length); // Maximum index on the curve
-      var max_coordinate = 2 ** this.granularity - 1;
-      var scaled_index = BigInt(Math.floor(this.overview_index * max_index)); // Convert the float mapped value to a BigInt
+        /* Map the overview index to the size of the Hilbert curve */
+        var max_index = 2 ** (this.granularity * this.active_parameters.length); // Maximum index on the curve
+        var max_coordinate = 2 ** this.granularity - 1;
+        var scaled_index = BigInt(Math.floor(this.overview_index * max_index)); // Convert the float mapped value to a BigInt
 
-      /* Call wasm method */
-      var coordinates_from_distance = instance.cwrap(
-        "coordinates_from_distance",
-        "number",
-        ["number", "number", "number"]
-      );
-      var ptr_from_wasm = coordinates_from_distance(
-        scaled_index,
-        this.granularity,
-        this.active_parameters.length
-      );
-      var coordinates = [
-        ...instance.HEAPU8.subarray(
-          ptr_from_wasm,
-          ptr_from_wasm + this.active_parameters.length
-        ),
-      ];
+        /* Call wasm method */
+        var coordinates_from_distance = instance.cwrap(
+          "coordinates_from_distance",
+          "number",
+          ["number", "number", "number"]
+        );
+        var ptr_from_wasm = coordinates_from_distance(
+          scaled_index,
+          this.granularity,
+          this.active_parameters.length
+        );
+        var coordinates = [
+          ...instance.HEAPU8.subarray(
+            ptr_from_wasm,
+            ptr_from_wasm + this.active_parameters.length
+          ),
+        ];
 
-      /* Scale coordinates between 0 and 1 */
-      var scaled_coordinates = coordinates.map((x) => x / max_coordinate);
-      this.$store.commit("updateParametersValues", scaled_coordinates);
-    }
-  }
+        /* Scale coordinates between 0 and 1 */
+        var scaled_coordinates = coordinates.map((x) => x / max_coordinate);
+        this.$store.commit("updateParametersValues", scaled_coordinates);
+      }
+    },
   },
   computed: {
     overview_index() {
       return this.$store.state.overview_index;
+    },
+    overview_zoom() {
+      return this.$store.state.overview_zoom;
     },
     parameters_no() {
       return this.$store.state.settings.parameters_no;

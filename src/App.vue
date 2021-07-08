@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" @mousemove="compute_index_zoom">
     <div class="header section-container">
       <h1 id="title-main" style="display:none">Hilbert</h1>
       <span class="menu-actions">
@@ -57,7 +57,11 @@
         <div class="overview-header">
           <h2>Macro-slider</h2>
         </div>
-        <OverviewIndex :class="{ hovered: is_snapshot_hovered }" />
+        <OverviewIndex
+          @index_mousedown="index_mousedown"
+          @index_mouseup="index_mouseup"
+          :class="{ hovered: is_snapshot_hovered }"
+        />
       </div>
       <div class="parameters section-container">
         <div class="parameters-header">
@@ -113,6 +117,7 @@ export default {
   data: function () {
     return {
       display_about: false,
+      index_mousedown_clientY: false /* If mousedown on index, mouseY offset */,
     };
   },
   computed: {
@@ -228,6 +233,21 @@ export default {
         this.$store.commit("resetParameters", parameters);
       };
       reader.readAsText(file);
+    index_mousedown(value) {
+      this.index_mousedown_clientY = value;
+    },
+    index_mouseup(value) {
+      this.index_mousedown_clientY = null;
+      this.$store.commit("updateOverviewZoom", null);
+    },
+    compute_index_zoom(e) {
+      /* If mousedown on index, compute index zoom from mouse distance */
+      if (this.index_mousedown_clientY) {
+        this.$store.commit(
+          "updateOverviewZoom",
+          Math.max(0, e.clientY - this.index_mousedown_clientY)
+        );
+      }
     },
   },
   beforeCreate() {

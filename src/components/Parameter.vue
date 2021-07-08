@@ -3,17 +3,17 @@
     class="parameters-section"
     :class="{ active: active, inactive: !active }"
   >
-  <div class="activate-parameter" @click="freezeParameter">
-    <img v-if="active" src="../assets/imgs/opened_lock.png" title="Lock" />
-    <img v-else src="../assets/imgs/closed_lock.png" title="Unlock" />
-  </div>
+    <div class="activate-parameter" @click="freezeParameter">
+      <img v-if="active" src="../assets/imgs/opened_lock.png" title="Lock" />
+      <img v-else src="../assets/imgs/closed_lock.png" title="Unlock" />
+    </div>
 
-  <input
-    :value="name"
-    @input="updateName"
-    type="text"
-    class="parameter-name"
-  />
+    <input
+      :value="name"
+      @input="updateName"
+      type="text"
+      class="parameter-name"
+    />
     <div class="parameters-slider-container">
       <input :value="min" @input="updateMin" type="number" />
       <div class="parameter-slider">
@@ -28,7 +28,7 @@
           :min="min"
           :max="max"
           step="any"
-          v-bind:style="{ '--zoomlevel': overview_zoom * 100 + '%' }"
+          v-bind:style="{ '--zoomlevel': sampling_range * 100 + '%' }"
         />
         <input
           :value="value"
@@ -111,7 +111,7 @@ export default {
   },
   computed: {
     ...mapState({
-      overview_zoom: (state) => state.overview_zoom,
+      sampling_range: (state) => state.sampling_range,
       active(state) {
         return state.parameters[this.index].active;
       },

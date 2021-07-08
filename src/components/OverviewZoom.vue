@@ -3,8 +3,8 @@
     <h3 id="detail-title">Sampling range</h3>
     <span>-</span>
     <input
-      :value="overview_zoom_html"
-      @input="updateOverviewZoom"
+      :value="sampling_range_html"
+      @input="updateSamplingRange"
       type="range"
       id="overview-zoom-slider"
       name="overview-zoom-slider"
@@ -27,23 +27,23 @@ export default {
     return {};
   },
   methods: {
-    updateOverviewZoom(e) {
+    updateSamplingRange(e) {
       /* Workaround to go from 1 to 0 */
-      this.$store.commit("updateOverviewZoom", 1 - e.target.value);
+      this.$store.commit("updateSamplingRange", 1 - e.target.value);
       /* Update range values */
       this.$store.commit("updateParametersRanges");
     },
   },
   computed: {
-    overview_zoom() {
-      return this.$store.state.overview_zoom;
+    sampling_range() {
+      return this.$store.state.sampling_range;
     },
-    overview_zoom_html() {
-      return 1 - this.overview_zoom;
+    sampling_range_html() {
+      return 1 - this.sampling_range;
     },
   },
   mounted() {
-    this.$refs.zoomref.value = this.overview_zoom_html;
+    this.$refs.zoomref.value = this.sampling_range_html;
   },
 };
 </script>

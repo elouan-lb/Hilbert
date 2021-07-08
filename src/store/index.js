@@ -23,8 +23,9 @@ export default createStore({
       port: 0,
       granularity: 0,
     },
-    overview_zoom: 1 /* 1: no zoom, 0: maximum zoom */,
+    sampling_range: 1 /* 1: no zoom, 0: maximum zoom */,
     overview_index: 0 /* From 0 to 1 */,
+    overview_zoom: 0,
     parameters: [],
     total_parameters_no: 0,
     snapshots: [],
@@ -66,7 +67,7 @@ export default createStore({
           min: 0,
           max: 1,
           zoomed_min: 0,
-          zoomed_max: this.state.overview_zoom,
+          zoomed_max: this.state.sampling_range,
           value: 0,
           range_value: 0,
         });
@@ -197,9 +198,9 @@ export default createStore({
       /* Update zoomed parameter range */
       var param = this.state.parameters[index];
       param.zoomed_min =
-        param.value - (param.value - param.min) * this.state.overview_zoom;
+        param.value - (param.value - param.min) * this.state.sampling_range;
       param.zoomed_max =
-        param.value + (param.max - param.value) * this.state.overview_zoom;
+        param.value + (param.max - param.value) * this.state.sampling_range;
     },
     updateOverviewIndex(state, index) {
       /* Log mutation */
@@ -214,7 +215,7 @@ export default createStore({
       this.state.overview_index = index;
       localStorage.setItem("index", index);
     },
-    updateOverviewZoom(state, zoom) {
+    updateSamplingRange(state, sampling_range) {
       /* Log mutation */
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
@@ -224,8 +225,12 @@ export default createStore({
           oldValue: this.state.overview_zoom,
         });
       }
-      this.state.overview_zoom = zoom;
+      this.state.sampling_range = sampling_range;
       this.commit("computeParametersZoomedIntervals");
+    },
+    updateOverviewZoom(state, zoom) {
+      /* Zoom depending on the mouse distance from the slider */
+      this.state.overview_zoom = zoom;
     },
     updateParameterActiveState(state, payload) {
       this.state.parameters[payload.index].active = payload.active;
@@ -323,7 +328,7 @@ export default createStore({
         selected: false,
         saved_state: {
           parameters_no: this.state.settings.parameters_no,
-          overview_zoom: this.state.overview_zoom,
+          sampling_range: this.state.sampling_range,
           overview_index: this.state.overview_index,
           parameters: JSON.parse(JSON.stringify(this.state.parameters)),
         },
@@ -351,14 +356,14 @@ export default createStore({
       this.state.snapshot_state_buffer = JSON.parse(
         JSON.stringify({
           parameters_no: this.state.settings.parameters_no,
-          overview_zoom: this.state.overview_zoom,
+          sampling_range: this.state.sampling_range,
           overview_index: this.state.overview_index,
           parameters: this.state.parameters,
         })
       );
       /* Reset data */
       this.state.settings.parameters_no = snapshot.saved_state.parameters_no;
-      this.state.overview_zoom = snapshot.saved_state.overview_zoom;
+      this.state.sampling_range = snapshot.saved_state.sampling_range;
       this.state.overview_index = snapshot.saved_state.overview_index;
       this.state.parameters = JSON.parse(
         JSON.stringify(snapshot.saved_state.parameters)
@@ -374,7 +379,7 @@ export default createStore({
       if (this.state.snapshot_state_buffer) {
         /*Revert state */
         this.state.settings.parameters_no = this.state.snapshot_state_buffer.parameters_no;
-        this.state.overview_zoom = this.state.snapshot_state_buffer.overview_zoom;
+        this.state.sampling_range = this.state.snapshot_state_buffer.sampling_range;
         this.state.overview_index = this.state.snapshot_state_buffer.overview_index;
         this.state.parameters = JSON.parse(
           JSON.stringify(this.state.snapshot_state_buffer.parameters)
@@ -388,7 +393,7 @@ export default createStore({
     loadSnapshot(state, index) {
       var snapshot = this.state.snapshots[index];
       this.state.settings.parameters_no = snapshot.saved_state.parameters_no;
-      this.state.overview_zoom = snapshot.saved_state.overview_zoom;
+      this.state.sampling_range = snapshot.saved_state.sampling_range;
       this.state.overview_index = snapshot.saved_state.overview_index;
       this.state.parameters = JSON.parse(
         JSON.stringify(snapshot.saved_state.parameters)
@@ -397,7 +402,7 @@ export default createStore({
       this.state.snapshot_state_buffer = JSON.parse(
         JSON.stringify({
           parameters_no: this.state.settings.parameters_no,
-          overview_zoom: this.state.overview_zoom,
+          sampling_range: this.state.sampling_range,
           overview_index: this.state.overview_index,
           parameters: this.state.parameters,
         })
