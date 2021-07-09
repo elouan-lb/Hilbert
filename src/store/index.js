@@ -77,8 +77,8 @@ export default createStore({
             action: "addParameter",
             newValue: "",
             oldValue: "",
-            name: this.state.parameters[this.state.parameters.length-1].name,
-          })
+            name: this.state.parameters[this.state.parameters.length - 1].name,
+          });
         }
       } else {
         /* Log mutation */
@@ -88,8 +88,8 @@ export default createStore({
             action: "removeParameter",
             newValue: "",
             oldValue: "",
-            name: this.state.parameters[this.state.parameters.length-1].name,
-          })
+            name: this.state.parameters[this.state.parameters.length - 1].name,
+          });
         }
         this.state.parameters.pop();
       }
@@ -106,7 +106,7 @@ export default createStore({
           newValue: "",
           oldValue: "",
           name: this.state.parameters[index].name,
-        })
+        });
       }
       this.state.parameters.splice(index, 1);
       state.settings.parameters_no -= 1;
@@ -115,7 +115,11 @@ export default createStore({
         8,
         Math.floor(63 / state.settings.parameters_no)
       );
-
+    },
+    resetParameters(state, parameters) {
+      this.state.total_parameters_no = 0;
+      this.state.parameters = parameters;
+      this.state.settings.parameters_no = parameters.length;
     },
     updateParametersValues(state, coordinates) {
       /* Get coordinates scaled between 0 and 1, then update active parameters values */
@@ -141,7 +145,7 @@ export default createStore({
             min: param.min,
             max: param.max,
             computed: true,
-          })
+          });
         }
         /* Send OSC */
         var osc_value = new OSC.Message(param.name, param.value);
@@ -205,7 +209,7 @@ export default createStore({
           action: "updateOverviewIndex",
           newValue: index,
           oldValue: this.state.overview_index,
-        })
+        });
       }
       this.state.overview_index = index;
       localStorage.setItem("index", index);
@@ -218,7 +222,7 @@ export default createStore({
           action: "updateOverviewZoom",
           newValue: zoom,
           oldValue: this.state.overview_zoom,
-        })
+        });
       }
       this.state.overview_zoom = zoom;
       this.commit("computeParametersZoomedIntervals");
@@ -230,11 +234,11 @@ export default createStore({
       if (this.state.is_recording) {
         this.state.recorded_actions.push({
           time: Date.now(),
-          action: (payload.active) ? "unlockParameter" : "lockParameter",
+          action: payload.active ? "unlockParameter" : "lockParameter",
           newValue: "",
           oldValue: "",
           name: this.state.parameters[payload.index].name,
-        })
+        });
       }
     },
     updateParameterMin(state, payload) {
@@ -246,7 +250,7 @@ export default createStore({
           newValue: payload.min,
           oldValue: this.state.parameters[payload.index].min,
           name: this.state.parameters[payload.index].name,
-        })
+        });
       }
 
       this.state.parameters[payload.index].min = payload.min;
@@ -260,7 +264,7 @@ export default createStore({
           newValue: payload.max,
           oldValue: this.state.parameters[payload.index].max,
           name: this.state.parameters[payload.index].name,
-        })
+        });
       }
 
       this.state.parameters[payload.index].max = payload.max;
@@ -273,9 +277,9 @@ export default createStore({
           action: "renameParameter",
           newValue: payload.name,
           oldValue: this.state.parameters[payload.index].name,
-        })
+        });
       }
-
+      console.log(this.state.parameters);
       this.state.parameters[payload.index].name = payload.name;
     },
     updateParameterValue(state, payload) {
@@ -292,7 +296,7 @@ export default createStore({
           min: param.min,
           max: param.max,
           computed: false,
-        })
+        });
       }
 
       param.value = parseFloat(payload.value);
@@ -313,7 +317,7 @@ export default createStore({
       this.state.display_snapshots = !this.state.display_snapshots;
     },
     addSnapshot(state) {
-      this.state.total_snapshots_no ++;
+      this.state.total_snapshots_no++;
       this.state.snapshots.push({
         name: "Snapshot n°" + this.state.total_snapshots_no,
         selected: false,
@@ -333,8 +337,8 @@ export default createStore({
           action: "addSnapshot",
           newValue: "",
           oldValue: "",
-          name: this.state.snapshots[this.state.snapshots.length-1].name,
-        })
+          name: this.state.snapshots[this.state.snapshots.length - 1].name,
+        });
       }
     },
     selectSnapshot(state, index) {
@@ -407,7 +411,7 @@ export default createStore({
           action: "renameSnapshot",
           newValue: payload.name,
           oldValue: this.state.snapshots[payload.index].name,
-        })
+        });
       }
 
       this.state.snapshots[payload.index].name = payload.name;
@@ -420,20 +424,19 @@ export default createStore({
           action: "deleteSnapshot",
           newValue: "",
           oldValue: "",
-          name: this.state.snapshots[index].name
-        })
+          name: this.state.snapshots[index].name,
+        });
       }
 
       this.state.snapshots.splice(index, 1);
     },
     startRecording(state) {
-      this.state.is_recording = true
-
+      this.state.is_recording = true;
     },
     stopRecording(state) {
-      this.state.is_recording = false
+      this.state.is_recording = false;
       this.state.recorded_actions = [];
-    }
+    },
   },
   actions: {
     async loadHilbertModule() {

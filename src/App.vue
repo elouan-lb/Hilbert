@@ -3,12 +3,24 @@
     <div class="header section-container">
       <h1 id="title-main">Hilbert</h1>
       <span class="menu-actions">
-        <a @click="startRecording" v-if="!is_recording" class="record">Record actions</a>
-        <a @click="stopRecording" v-if="is_recording" class="recording">Stop recording</a>
+        <a @click.prevent="startRecording" v-if="!is_recording" class="record"
+          >Record</a
+        >
+        <a @click.prevent="stopRecording" v-if="is_recording" class="recording"
+          >Stop</a
+        >
+        <a @click.prevent="saveParameters" class="save-parameters">Save</a>
+        <a @click.prevent="loadParameters" class="load-parameters">Load</a>
+        <input
+          type="file"
+          ref="parametersfileinput"
+          @change="onFileChange"
+          style="display: none;"
+        />
         <a
           id="title-settings"
           href="#"
-          @click="display_about = !display_about"
+          @click.prevent="display_about = !display_about"
           >{{ nav }}</a
         >
       </span>
@@ -173,6 +185,49 @@ export default {
       /* Stop recording */
       this.$store.commit("stopRecording");
       // this.is_recording = false;
+    },
+    saveParameters() {
+      const data = JSON.stringify(this.parameters);
+      const blob = new Blob([data], { type: "text/plain" });
+      const e = document.createEvent("MouseEvents"),
+        a = document.createElement("a");
+      a.download = "parameters.json";
+      a.href = window.URL.createObjectURL(blob);
+      a.dataset.downloadurl = ["text/json", a.download, a.href].join(":");
+      e.initEvent(
+        "click",
+        true,
+        false,
+        window,
+        0,
+        0,
+        0,
+        0,
+        0,
+        false,
+        false,
+        false,
+        false,
+        0,
+        null
+      );
+      a.dispatchEvent(e);
+    },
+    loadParameters() {
+      this.$refs.parametersfileinput.click();
+    },
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.readFile(files[0]);
+    },
+    readFile(file) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        let parameters = JSON.parse(e.target.result);
+        this.$store.commit("resetParameters", parameters);
+      };
+      reader.readAsText(file);
     },
   },
   beforeCreate() {
