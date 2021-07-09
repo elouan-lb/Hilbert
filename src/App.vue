@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <div class="header section-container">
-      <h1 id="title-main">Hilbert</h1>
+      <h1 id="title-main" style="display:none">Hilbert</h1>
       <span class="menu-actions">
         <a @click.prevent="startRecording" v-if="!is_recording" class="record"
           >Record</a
