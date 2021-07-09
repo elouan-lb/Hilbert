@@ -233,6 +233,7 @@ export default {
         this.$store.commit("resetParameters", parameters);
       };
       reader.readAsText(file);
+    },
     index_mousedown(value) {
       this.index_mousedown_clientY = value;
     },
