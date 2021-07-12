@@ -221,7 +221,7 @@ export default createStore({
         this.state.recorded_actions.push({
           time: Date.now(),
           action: "updateOverviewZoom",
-          newValue: zoom,
+          newValue: sampling_range,
           oldValue: this.state.overview_zoom,
         });
       }
