@@ -239,7 +239,6 @@ export default {
     },
     index_mouseup(value) {
       this.index_mousedown_clientY = null;
-      this.$store.commit("updateOverviewZoom", null);
     },
     compute_index_zoom(e) {
       /* If mousedown on index, compute index zoom from mouse distance */
