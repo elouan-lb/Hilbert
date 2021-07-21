@@ -96,7 +96,9 @@ export default createStore({
       }
       state.settings.parameters_no = n;
       /* Compute granularity (max: 8)*/
-      this.state.settings.granularity = Math.min(8, Math.floor(63 / n));
+      var active_parameters_length = this.state.parameters.filter((p) => p.active).length;
+      console.log(active_parameters_length);
+      this.state.settings.granularity = Math.min(8, Math.floor(63 / active_parameters_length));
     },
     removeParameter(state, index) {
       /* Log mutation */
@@ -112,10 +114,8 @@ export default createStore({
       this.state.parameters.splice(index, 1);
       state.settings.parameters_no -= 1;
       /* Compute granularity (max: 8)*/
-      this.state.settings.granularity = Math.min(
-        8,
-        Math.floor(63 / state.settings.parameters_no)
-      );
+      var active_parameters_length = this.state.parameters.filter((p) => p.active).length;
+      this.state.settings.granularity = Math.min(8, Math.floor(63 / active_parameters_length));
     },
     resetParameters(state, parameters) {
       this.state.total_parameters_no = 0;
@@ -245,6 +245,10 @@ export default createStore({
           name: this.state.parameters[payload.index].name,
         });
       }
+
+      /* Compute granularity (max: 8)*/
+      var active_parameters_length = this.state.parameters.filter((p) => p.active).length;
+      this.state.settings.granularity = Math.min(8, Math.floor(63 / active_parameters_length));
     },
     updateParameterMin(state, payload) {
       /* Log mutation */
