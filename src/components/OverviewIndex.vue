@@ -5,6 +5,7 @@
       @input="updateOverviewIndex"
       @mousedown="initialiseZoom"
       @mouseup="stopZoom"
+      :value="overview_index"
       id="overview-index-slider"
       name="overview-index-slider"
       ref="indexref"
